@@ -5,5 +5,5 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <p>Hello World!</p>
+  <p class="text-blue-400">Hello World!</p>
 </template>
