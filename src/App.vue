@@ -1,9 +1,8 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <p class="text-blue-400">Hello World!</p>
+  <router-view></router-view>
+  <!-- use router-link elements as opposed to <a> tags for routing between pages -->
 </template>
+
+<script>
+
+</script>
