@@ -4,14 +4,22 @@
     <h1>Right-click -> inspect -> console</h1>
     <button @click="fetchGames()" class="px-4 py-2 bg-blue-500 rounded-lg">Fetch Games!</button>
     <button @click="fetchTags()" class="px-4 py-2 bg-red-500 rounded-lg">Fetch Tags!</button>
+    <FetchAll></FetchAll>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+//import Profile from './components/Profile.vue'
+import FetchAll from '../components/FetchAll.vue'
 const api = import.meta.env.VITE_RAWG_API_KEY;
 
 export default {
+
+  components: {
+    FetchAll
+  },
+
   methods: {
     async fetchGames() {
       try {
