@@ -5,43 +5,61 @@
 <script>
 import axios from 'axios';
 import { supabase } from '../supabase'
-const api = import.meta.env.VITE_RAWG_API_KEY;
+const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
 export default {
     
     methods: {
         async fetchAll() {
-            try {
+
+            var response = await fetchGenres();
+
+            const genreList = response.data.results;
+            
+            for (var genre of genreList) {
                 
-                // maximum page_size is 40
-                const url = `https://api.rawg.io/api/genres?key=${api}&page_size=40`;
-                const response = await axios.get(url);
-                const totalGenres = response.data.count;
-                var remainingGenres = totalGenres - response.data.results.length;
-                
-                // for (var genre in response.data.results) {
-
-                // }
-
-                console.log(response);
-
-                //   for (var game of results) {
-                //     var platformList = "";
-                //     for (var holder of game.platforms) {
-                //       platformList += holder.platform.name + " ";
-                //     }
-                //     console.log("Game: " + game.slug + "\nReleased: " + game.released + "\nPlatforms: " + platformList);
-                //   }
-            } catch (err) {
-                if (err.response) {
-                    console.log("Server Error: ", err);
-                } else if (err.request) {
-                    console.log("Network Error: ", err);
-                } else {
-                    console.log("Client Error: ", err);
-                }
+                await passGenreToDatabase(genre);
             }
         },
     }
 }
+
+async function fetchGenres() {
+
+    try {
+        
+        const url = `https://api.rawg.io/api/genres?key=${apiKey}&page_size=40`;
+        return await axios.get(url);
+        
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+async function passGenreToDatabase(g) {
+
+    try {
+        
+        const { data, error } = await supabase
+                .from('Genres')
+                .insert( [{ genre_id: g.id, name: g.name}])
+
+        if (error) throw error
+        
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+function handleError(e) {
+    
+    if (e.response) {
+        console.log("Server Error: ", e);
+    } else if (e.request) {
+        console.log("Network Error: ", e);
+    } else {
+        console.log("Client Error: ", e);
+    }
+}
+
 </script>
