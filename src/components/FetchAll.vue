@@ -12,31 +12,48 @@ export default {
     methods: {
         async fetchAll() {
 
-            var response = await fetchGenres();
-
-            const genreList = response.data.results;
-            
-            for (var genre of genreList) {
-                
-                await passGenreToDatabase(genre);
-            }
+            await fetchGenres();
         },
     }
 }
 
+// fetches genre pages from rawg and sends them to our database
+// - leverages the value of response to determine when to stop fetching.  If it is undefined, it is most
+//   likely because we passed the last valid page number.  Can check error message for details.
 async function fetchGenres() {
 
+    const totalPagesWeWant = 1;
+    const pageSize = 40;
+
+    for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
+
+        var response = await fetchGenrePage(pageSize, pageNum);
+
+        if (!response) // most likely indicates invalid page number
+            break;
+
+        for (var genre of response.data.results) 
+            await sendGenreToDatabase(genre);
+    }
+}
+
+// fetches a single genre page
+// - returns the response if .get is successful.  If not, error is displayed and return value is undefined
+async function fetchGenrePage(pageSize, pageNum) {
+
     try {
-        
-        const url = `https://api.rawg.io/api/genres?key=${apiKey}&page_size=40`;
+
+        const url = `https://api.rawg.io/api/genres?key=${apiKey}&page_size=${pageSize}&page=${pageNum}`;
         return await axios.get(url);
-        
+
     } catch (err) {
         handleError(err);
     }
 }
 
-async function passGenreToDatabase(g) {
+// sends an individual genre to our database
+// - ignores errors with code 23505 (unique constraint violation) since that is expected
+async function sendGenreToDatabase(g) {
 
     try {
         
@@ -44,7 +61,10 @@ async function passGenreToDatabase(g) {
                 .from('Genres')
                 .insert( [{ genre_id: g.id, name: g.name}])
 
-        if (error) throw error
+        if (error) {
+            if (error.code != 23505)
+                throw error
+        }
         
     } catch (err) {
         handleError(err);
