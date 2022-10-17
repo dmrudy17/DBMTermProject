@@ -17,13 +17,16 @@ export default {
     }
 }
 
-// fetches genre pages from rawg and sends them to our database
+// clears the genres table, fetches genre pages from rawg, then sends them to our database
 // - leverages the value of response to determine when to stop fetching.  If it is undefined, it is most
 //   likely because we passed the last valid page number.  Can check error message for details.
 async function fetchGenres() {
 
+    await clearGenresTable();
+
     const totalPagesWeWant = 1;
     const pageSize = 40;
+    var allGenresFetched = [];
 
     for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
 
@@ -32,9 +35,12 @@ async function fetchGenres() {
         if (!response) // most likely indicates invalid page number
             break;
 
-        for (var genre of response.data.results) 
-            await sendGenreToDatabase(genre);
+        const genresFetched = response.data.results;
+        for (var i=0; i<genresFetched.length; i++) 
+            allGenresFetched[i] = { genre_id: genresFetched[i].id, name: genresFetched[i].name };
     }
+
+    await sendAllGenresToDatabase(allGenresFetched);
 }
 
 // fetches a single genre page
@@ -51,8 +57,24 @@ async function fetchGenrePage(pageSize, pageNum) {
     }
 }
 
+// sends all genres from the fetched results to our database
+// - if any of those in the list are already in the db, then this will fail
+async function sendAllGenresToDatabase(allGenresFetched) {
+
+    try {
+        
+        const { data, error } = await supabase
+                .from('Genres')
+                .insert(allGenresFetched)
+
+        if (error) throw error
+
+    } catch (err) {
+        handleError(err);
+    }
+}
+
 // sends an individual genre to our database
-// - ignores errors with code 23505 (unique constraint violation) since that is expected
 async function sendGenreToDatabase(g) {
 
     try {
@@ -61,11 +83,23 @@ async function sendGenreToDatabase(g) {
                 .from('Genres')
                 .insert( [{ genre_id: g.id, name: g.name}])
 
-        if (error) {
-            if (error.code != 23505)
-                throw error
-        }
+        if (error) throw error
         
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+// invoke the clearGenresTable function on supabase
+async function clearGenresTable() {
+
+    try {
+ 
+        const { error } = await supabase
+                .rpc('clearGenresTable')
+
+        if (error) throw error
+
     } catch (err) {
         handleError(err);
     }
