@@ -15,6 +15,7 @@ const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 //thinking about putting this function into its own file maybe?
 //initialized fetches {40} game responses for {1} page
 export async function fetchGames() {
+  const totalPagesWeWant = 1;
   const pageSize = 40;
   const baseURL = "https://api.rawg.io/api/games";
   var allFetched = [];
@@ -33,6 +34,28 @@ export async function fetchGames() {
     if (!response.data.next) break;
   }
   await sendToDatabase(allFetched, "Games");
+}
+// fetches tags pages from rawg, then sends the results to our database
+export async function fetchTags() {
+  const totalPagesWeWant = 1;
+  const pageSize = 40;
+  const baseURL = "https://api.rawg.io/api/tags";
+  var allFetched = [];
+  for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
+    var response = await fetchPage(baseURL, pageSize, pageNum);
+
+    const fetched = response.data.results;
+    for (var i = 0; i < fetched.length; i++) {
+      allFetched.push({
+        id: fetched[i].id,
+        name: fetched[i].name,
+        is_rateable: true,
+        description: "",
+      });
+    }
+    if (!response.data.next) break;
+  }
+  await sendToDatabase(allFetched, "Tags");
 }
 // clears the genres table, fetches genre pages from rawg, then sends the results to our database
 // - there are currently a total of 19 genres on rawg
