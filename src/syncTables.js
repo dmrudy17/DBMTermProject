@@ -26,9 +26,8 @@ export async function fetchGames() {
       allFetched.push({
         game_id: fetched[i].id,
         game_name: fetched[i].name,
-        //this would return all items in a response of tags including forward-slash in strings
-        //see image 1 as an example of tags
-        tags: fetched[i].tags,
+        release_date: fetched[i].released,
+        confidence: 0,
       });
     }
     if (!response.data.next) break;
