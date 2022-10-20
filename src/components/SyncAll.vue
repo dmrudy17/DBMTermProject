@@ -11,8 +11,9 @@ export default {
     methods: {
         async syncAll() {
 
-            await syncGenres();
-            await syncPlatforms();
+            //await syncGenres();
+            //await syncPlatforms();
+            
         },
     }
 }

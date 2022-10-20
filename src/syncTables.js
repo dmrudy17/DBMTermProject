@@ -16,8 +16,6 @@ const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 // - there are currently a total of 19 genres on rawg
 export async function syncGenres() {
 
-    await clearTable('clearGenresTable');
-
     const totalPagesWeWant = 1; // note that this will be the number of requests made
     const pageSize = 40;
     const baseURL = 'https://api.rawg.io/api/genres';
@@ -35,14 +33,12 @@ export async function syncGenres() {
             break;
     }
 
-    await sendToDatabase(allFetched, 'Genres');
+    await insertNonDuplicates(allFetched, 'Genres');
 }
 
 // clears the platforms table, fetches platform pages from rawg, then sends the results to our database
 // - there are currently a total of 51 platforms on rawg
 export async function syncPlatforms() {
-
-    await clearTable('clearPlatformsTable');
 
     const totalPagesWeWant = 2; // note that this will be the number of requests made
     const pageSize = 40;
@@ -61,7 +57,7 @@ export async function syncPlatforms() {
             break;
     }
 
-    await sendToDatabase(allFetched, 'Platforms');
+    await insertNonDuplicates(allFetched, 'Platforms');
 }
 
 // fetches a single page
@@ -87,6 +83,24 @@ async function sendToDatabase(allFetched, tableName) {
         const { data, error } = await supabase
                 .from(tableName)
                 .insert(allFetched)
+
+        if (error) throw error
+
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+// With ignoreDuplicates set to true, this will insert any rows that are not already in the table.  By default, a row
+// is considered to be already in the table (aka a duplicate) if there is already a row with the same primary key
+async function insertNonDuplicates(rows, tableName) {
+
+    try {
+        
+        const { data, error } = await supabase
+                .from(tableName)
+                .upsert(rows, 
+                    { ignoreDuplicates: true } )
 
         if (error) throw error
 

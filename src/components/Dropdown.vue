@@ -20,7 +20,6 @@ export default {
       var elem = document.createElement("option");
       elem.textContent = genre.name;
       elem.value = genre.name;
-      console.log(genre);
       document.getElementById("ddList").appendChild(elem);
     }
     
