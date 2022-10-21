@@ -97,14 +97,14 @@ export default {
           errorMessage.value = error.message;
           setTimeout(() => {
             errorMessage.value = '';
-          }, 5000)
+          }, 5000);
         }
         return;
       }
       errorMessage.value = "Error: Passwords do not match";
       setTimeout(() => {
         errorMessage.value = '';
-      }, 5000)
+      }, 5000);
     };
 
     return { username, email, password, confirmPassword, errorMessage, register }
