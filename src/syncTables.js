@@ -9,6 +9,7 @@
 
 import axios from 'axios';
 import { supabase } from './supabase'
+import { handleError } from './error'
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
 // fetches pages from the games endpoint and uses the games' attributes to build our tables including: Games
@@ -31,7 +32,7 @@ export async function upsertFromGames() {
     // all rows fetched for the game<->tag table
     var allGameTagLinks = []
 
-    // all rows fetched for the tags table.  User Set() because we will surely encounter duplicates when fetching. This may
+    // all rows fetched for the tags table.  Use Set() because we will surely encounter duplicates when fetching. This may
     // not be necessary since we have ignore duplicates on upsert, but it will keep the list of rows sent much smaller
     const allTags = new Set();
 
@@ -49,7 +50,8 @@ export async function upsertFromGames() {
             }
 
             for (var p of game.platforms) {
-                allGamePlatformLinks.push({ game_id: game.id, platform_id: p.platform.id });
+                // p.platform is not a typo - see 'games' object
+                allGamePlatformLinks.push({ game_id: game.id, platform_id: p.platform.id }); 
             }
 
             for (var tag of game.tags) {
@@ -191,16 +193,5 @@ async function clearTable(db_function) {
 
     } catch (err) {
         handleError(err);
-    }
-}
-
-function handleError(e) {
-    
-    if (e.response) {
-        console.log("Server Error: ", e);
-    } else if (e.request) {
-        console.log("Network Error: ", e);
-    } else {
-        console.log("Client Error: ", e);
     }
 }
