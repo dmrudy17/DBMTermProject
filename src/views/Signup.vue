@@ -1,5 +1,5 @@
 <template>
-  <div class="signup w-screen h-screen bg-black">
+  <div class="signup w-screen h-screen bg-gradient-to-br from-black via-black to-pink-500">
     <SignUpCard />
   </div>
 </template>

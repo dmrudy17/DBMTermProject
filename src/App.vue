@@ -1,5 +1,6 @@
 <template>
   <div v-if="appReady">
+    <Navigation />
     <router-view></router-view>
     <!-- use router-link elements as opposed to <a> tags for routing between pages -->
   </div>
@@ -9,6 +10,7 @@
 import { ref } from 'vue';
 import { supabase } from './supabase';
 import store from './store/index';
+import Navigation from './components/Navigation.vue';
 
 export default {
   setup() {
@@ -24,12 +26,14 @@ export default {
 
     // Fires when auth state changes
     supabase.auth.onAuthStateChange((_, session) => {
-      console.log(session);
       store.methods.setUser(session);
       appReady.value = true;
     })
 
     return { appReady };
+  },
+  components: {
+    Navigation
   }
 }
 </script>
