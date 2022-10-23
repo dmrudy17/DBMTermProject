@@ -4,15 +4,15 @@
 
 <script>
 
-import { syncGenres, syncPlatforms } from '../syncTables'
+import { upsertFromGames, upsertGenres, upsertPlatforms } from '../syncTables'
 
 export default {
     
     methods: {
         async syncAll() {
 
-            await syncGenres();
-            await syncPlatforms();
+            await upsertFromGames();
+            
         },
     }
 }
