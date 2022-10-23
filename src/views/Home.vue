@@ -5,6 +5,9 @@
     <button @click="fetchGames()" class="px-4 py-2 bg-blue-500 rounded-lg">Fetch Games!</button>
     <button @click="fetchTags()" class="px-4 py-2 bg-red-500 rounded-lg">Fetch Tags!</button>
     <SyncAll></SyncAll>
+    <div v-if="user">Hooray! You're logged in!</div>
+    <div v-else>Why aren't you logged in</div>
+    <button @click="logout()">Log out</button>
   </div>
 </template>
 
@@ -13,13 +16,23 @@ import axios from 'axios';
 //import Profile from './components/Profile.vue'
 import SyncAll from '../components/SyncAll.vue'
 const api = import.meta.env.VITE_RAWG_API_KEY;
+import store from '../store/index';
+import { computed } from 'vue';
+import { supabase } from '../supabase';
 
 export default {
-
   components: {
     SyncAll
   },
+  setup() {
+    const user = computed(() => store.state.user);
 
+    const logout = async () => {
+      await supabase.auth.signOut();
+    }
+
+    return { user, logout }
+  },
   methods: {
     async fetchGames() {
       try {
