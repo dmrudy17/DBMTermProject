@@ -5,20 +5,11 @@
 </template>
 
 <script>
-import {
-  fetchGames,
-  fetchTags,
-  syncGenres,
-  syncPlatforms,
-} from "../syncTables";
-
+import { upsertFromGames } from "../syncTables";
 export default {
   methods: {
     async syncAll() {
-      await fetchTags();
-      await fetchGames();
-      await syncGenres();
-      await syncPlatforms();
+      await upsertFromGames();
     },
   },
 };
