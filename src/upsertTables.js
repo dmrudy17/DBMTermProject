@@ -1,5 +1,5 @@
 /* 
-    syncTables.js
+    upsertTables.js
 
     Synchronize our db tables with data in rawg.
     

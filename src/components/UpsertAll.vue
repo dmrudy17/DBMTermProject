@@ -4,7 +4,7 @@
 
 <script>
 
-import { upsertFromGames, upsertGenres, upsertPlatforms } from '../syncTables'
+import { upsertFromGames, upsertGenres, upsertPlatforms } from '../upsertTables'
 
 export default {
     
