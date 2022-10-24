@@ -13,7 +13,7 @@ export default {
     }
   },
   async mounted() {
-
+    
     await this.getGenres();
     for (var genre of this.genreList) {
 
