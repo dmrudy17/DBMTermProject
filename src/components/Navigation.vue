@@ -9,6 +9,7 @@
         <router-link to="/" class="text-gray-300 p-2 border-b border-gray-300 hover:text-white hover:border-white text-lg">Home</router-link>
         <router-link v-if="!user" to="/login" class="text-gray-300 p-2 border-b border-gray-300 hover:text-white hover:border-white text-lg">Log In</router-link>
         <router-link v-if="!user" to="/signup" class="text-gray-300 p-2 border-b border-gray-300 hover:text-white hover:border-white text-lg">Sign Up</router-link>
+        <router-link v-if="user" to="/settings" class="text-gray-300 p-2 border-b border-gray-300 hover:text-white hover:border-white text-lg">User Settings</router-link>
         <button v-if="user" class="text-gray-300 border-b border-gray-300 hover:text-white hover:border-white text-lg" @click="logout()">Log Out</button>
       </div>
     </div>
