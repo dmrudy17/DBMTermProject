@@ -1,12 +1,13 @@
 <template>
     <button @click="upsertAll()" class="px-4 py-2 bg-green-500 rounded-lg">Upsert All</button>
-    <button @click="testRPC()" class="px-4 py-2 bg-grey-500 rounded-lg">Test rpc</button>
+    <button @click="testRPC()" class="px-4 py-2 bg-green-500 rounded-lg">Test rpc</button>
 </template>
 
 <script>
 
 import { upsertFromGames, upsertGenres, upsertPlatforms } from '../upsertTables'
-import { addRating_rpc } from '../rpc'
+import { updateRating_rpc } from '../rpc'
+import store from '../store/index';
 
 export default {
     
@@ -18,8 +19,8 @@ export default {
             await upsertPlatforms();
         },
         async testRPC() {
-
-            await addRating_rpc('RPG', 'Fallout 4', 7);
+            
+            await updateRating_rpc(store.state.user.id, 'RPG', 'Fallout 4', 7);
         }
     }
 }

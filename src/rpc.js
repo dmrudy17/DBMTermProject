@@ -2,16 +2,17 @@
 import { handleError } from './error'
 import { supabase } from './supabase'
 
-export async function addRating_rpc(tagNameArg, gameNameArg, ratingArg) {
+export async function updateRating_rpc(userIDArg, tagNameArg, gameNameArg, ratingArg) {
 
     try {
             
         const { data, error } = await supabase
-                .rpc('addRating', { tag_name_arg: tagNameArg, game_name_arg: gameNameArg, rating: ratingArg })
+                .rpc('update_rating', {  user_id_arg: userIDArg,
+                                        tag_name_arg: tagNameArg,
+                                        game_name_arg: gameNameArg,
+                                        rating_arg: ratingArg })
                 
         if (error) throw error
-
-        console.log(data);
 
     } catch (err) {
         handleError(err);
