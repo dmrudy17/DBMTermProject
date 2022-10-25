@@ -55,13 +55,13 @@ export async function upsertFromGames() {
             }
 
             for (var tag of game.tags) {
-                allTags.add({ id: tag.id, name: tag.name, is_rateable: true, description: ""})
-                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, score: null, times_rated: null });
+                allTags.add({ tag_id: tag.id, tag_name: tag.name, is_rateable: true, description: ""})
+                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, avg_score: null, times_rated: null });
             }
 
             allGames.push({
                     game_id: game.id,
-                    game_name: game.name,
+                    title: game.name,
                     release_date: game.released,
                     background_image: game.background_image,
                     confidence: 0,
@@ -172,22 +172,6 @@ async function insertNonDuplicates(rows, tableName) {
                 .from(tableName)
                 .upsert(rows, 
                     { ignoreDuplicates: true } )
-
-        if (error) throw error
-
-    } catch (err) {
-        handleError(err);
-    }
-}
-
-// invoke the database function on supabase that clears to the table you want to clear
-// - includes clearGenresTable and clearPlatformsTable
-async function clearTable(db_function) {
-
-    try {
- 
-        const { error } = await supabase
-                .rpc(db_function)
 
         if (error) throw error
 
