@@ -2,6 +2,28 @@
 import { handleError } from './error'
 import { supabase } from './supabase'
 
+export async function fetchGameInfo_rpc(gameNameArg) {
+
+    try {
+        console.log('trying');
+        const { data, error } = await supabase
+                .rpc('fetch_game_page_info', { game_name_arg: gameNameArg })
+                
+        if (error) throw error
+
+        
+        console.log(data);
+
+        console.log(data.tags);
+        
+        for (var tn of data.tags)
+            console.log(tn);
+
+    } catch (err) {
+        handleError(err);
+    }
+}
+
 export async function updateRating_rpc(userIDArg, tagNameArg, gameNameArg, ratingArg) {
 
     try {
