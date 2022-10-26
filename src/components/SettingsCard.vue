@@ -5,8 +5,8 @@
         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 blur"></div>
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
           <h1 class="text-white text-center text-xl">Settings</h1>
-          <div class="flex flex-row">
-            <div class="flex flex-col w-3/4">
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-col w-1/2">
               <h1 class="text-white">Username: {{ this.userName }}</h1>
               <h1 class="text-white">Email: {{ this.email }}</h1>
             </div>
