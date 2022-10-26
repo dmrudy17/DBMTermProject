@@ -1,7 +1,9 @@
 <template>
     <button @click="upsertAll()" class="px-4 py-2 bg-red-500 rounded-lg">Upsert All</button>
     <button @click="callUpdateRating()" class="px-4 py-2 bg-green-500 rounded-lg">Update Rating</button>
-    <button @click="callFetchGameInfo()" class="px-4 py-2 bg-blue-500 rounded-lg">Get Game Info</button>
+    <form @submit.prevent="callFetchGameInfo" style="display: inline;"> 
+        <input v-model="gameName" placeholder="Enter game name">  
+    </form>
 </template>
 
 <script>
@@ -12,6 +14,11 @@ import store from '../store/index';
 
 export default {
     
+    data() {
+        return {
+            gameName: ''
+        }
+    },
     methods: {
         async upsertAll() {
 
@@ -25,7 +32,7 @@ export default {
         },
         async callFetchGameInfo() {
             
-            await fetchGameInfo_rpc('Fallout 4');
+            await fetchGameInfo_rpc(this.gameName);
         }
     }
 }

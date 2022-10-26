@@ -5,17 +5,19 @@ import { supabase } from './supabase'
 export async function fetchGameInfo_rpc(gameNameArg) {
 
     try {
-        console.log('trying');
+        
         const { data, error } = await supabase
                 .rpc('fetch_game_page_info', { game_name_arg: gameNameArg })
                 
         if (error) throw error
 
-        
+        if (data.id == null) {
+            console.log('Game not found');
+            return;
+        }
+
         console.log(data);
 
-        console.log(data.tags);
-        
         for (var tn of data.tags)
             console.log(tn);
 
