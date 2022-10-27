@@ -11,15 +11,12 @@ export async function fetchGameInfo_rpc(gameNameArg) {
                 
         if (error) throw error
 
-        if (data.id == null) {
+        if (data.game_id == null) {
             console.log('Game not found');
             return;
         }
 
-        console.log(data);
-
-        for (var tn of data.tags)
-            console.log(tn);
+        return data;
 
     } catch (err) {
         handleError(err);
