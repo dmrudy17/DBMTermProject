@@ -32,7 +32,8 @@ export default {
         },
         async callFetchGameInfo() {
             
-            await fetchGameInfo_rpc(this.gameName);
+            var response = await fetchGameInfo_rpc(this.gameName);
+            console.log(response);
         }
     }
 }
