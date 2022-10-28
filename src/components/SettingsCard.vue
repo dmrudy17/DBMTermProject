@@ -5,10 +5,10 @@
         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 blur"></div>
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
           <h1 class="text-white text-center text-xl">Settings</h1>
-          <div class="flex flex-row">
-            <div class="flex flex-col w-3/4">
-              <h1 class="text-white">Username: {{ this.userName }}</h1>
-              <h1 class="text-white">Email: {{ this.email }}</h1>
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-col w-1/2">
+              <h1 class="text-white">Username: {{ userName }}</h1>
+              <h1 class="text-white">Email: {{ email }}</h1>
             </div>
             <button @click="toggleDelete = !toggleDelete" class="py-3 px-1 rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Delete Account</button>
           </div>
@@ -19,7 +19,7 @@
       <div class="relative w-full h-full">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 blur"></div>
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
-          <h1 class="text-white text-center text-xl">But the game was just getting good, {{ this.userName }}!</h1>
+          <h1 class="text-white text-center text-xl">But the game was just getting good, {{ userName }}!</h1>
           <div class="flex items-center flex-col w-full mt-2">
             <img class="rounded-lg w-96" src="../assets/pikachusad.jpg">
             <span class="text-white mt-2 text-lg">Are you sure you would like to delete your account?</span>
