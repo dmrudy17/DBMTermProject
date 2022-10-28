@@ -15,11 +15,9 @@ const methods = {
     },
     setGameInfo(payload) {
         if (payload) {
-            console.log("hello");
             state.gameInfo.image = payload.image;
             state.gameInfo.title = payload.title;
             state.gameInfo.tagData = payload.tagData;
-            console.log(state.gameInfo.image);
         }
     },
 };
