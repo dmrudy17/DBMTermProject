@@ -11,15 +11,15 @@
                 <tr>
                   <th>Tag</th>
                   <th>Average User Score</th>
-                  <th>Your Rating</th>
+                  <th v-if="user">Your Score</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(tag, index) in tagData" :key="index">
-                  <td>{{ tag.name }}</td>
-                  <td v-if="tag.avg_score">{{ tag.avg_score }}</td>
-                  <td v-else>Not rated</td>
-                  <td>
+                  <td class="text-center">{{ tag.name }}</td>
+                  <td v-if="tag.avg_score" class="text-center">{{ tag.avg_score }}</td>
+                  <td v-else class="text-center">Not rated</td>
+                  <td v-if="user">
                     <input class="bg-gray-500 caret-white" type="number" v-model="tagRating[index]" @keyup.enter="updateTagRating(tag, tagRating[index])">
                   </td>
                 </tr>
@@ -47,7 +47,7 @@ export default {
       }
     },
     setup() {
-      console.log(store.state.gameInfo);
+      const user = computed(() => store.state.user);
       const gameImage = computed(() => store.state.gameInfo.image);
       const gameTitle = computed(() => store.state.gameInfo.title);
       const tagData = computed(() => store.state.gameInfo.tagData);
@@ -57,7 +57,7 @@ export default {
         await updateRating_rpc(store.state.user.id, tag.name, gameTitle.value, tagRating);
       }
 
-      return { gameImage, gameTitle, tagData, updateTagRating, tagRating };
+      return { user, gameImage, gameTitle, tagData, updateTagRating, tagRating };
     }
 }
 </script>
