@@ -1,8 +1,8 @@
 <template>
   <div class="flex w-screen h-screen m-auto content-center justify-center">
     <div class="relative w-3/4 h-full">
-      <div class="flex flex-row h-1/2">
-        <div class="w-1/2 h-full" :style="{ background: 'url(' + gameImage + ')', 'background-size': '100%'}">
+      <div class="flex flex-row h-2/5">
+        <div class="w-1/2 h-full" :style="{ background: 'url(' + gameImage + ')', 'background-size': 'cover'}">
           <span class="text-white text-3xl p-1 bg-black w-auto">{{ gameTitle }}</span>
         </div>
         <div class="w-1/2 bg-black scrollbar scrollbar-thumb-indigo-300">
