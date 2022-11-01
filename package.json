@@ -12,6 +12,7 @@
     "@heroicons/vue": "^2.0.12",
     "@supabase/supabase-js": "^1.35.7",
     "axios": "^1.1.2",
+    "tailwind-scrollbar": "^2.0.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5"
   },

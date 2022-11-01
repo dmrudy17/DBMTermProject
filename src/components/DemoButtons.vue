@@ -11,6 +11,7 @@
 import { upsertFromGames, upsertGenres, upsertPlatforms } from '../upsertTables'
 import { updateRating_rpc, fetchGameInfo_rpc } from '../rpc'
 import store from '../store/index';
+import { useRouter } from 'vue-router';
 
 export default {
     
@@ -33,7 +34,12 @@ export default {
         async callFetchGameInfo() {
             
             var response = await fetchGameInfo_rpc(this.gameName);
-            console.log(response);
+            var gameInfo = {};
+            gameInfo.image = response.game_image;
+            gameInfo.title = this.gameName;
+            gameInfo.tagData = response.tags;
+            store.methods.setGameInfo(gameInfo);
+            this.$router.push("/game");
         }
     }
 }
