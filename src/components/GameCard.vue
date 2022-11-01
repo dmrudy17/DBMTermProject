@@ -71,7 +71,7 @@ export default {
     const updateTagRating = async (tag, tagRating) => {
       await updateRating_rpc(store.state.user.id, tag.name, gameTitle.value, tagRating);
     }
-    return { submitRating, user, gameImage, gameTitle, tagData, updateTagRating, tagRating };
+    return { user, gameImage, gameTitle, tagData, updateTagRating, tagRating };
   },
   methods: {
     showAlert() {
