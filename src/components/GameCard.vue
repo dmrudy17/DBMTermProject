@@ -38,7 +38,7 @@
                   <td v-else class="text-center">Not rated</td>
                   <td v-if="user">
                     <input ref="submitRating" class="bg-gray-500 caret-white" type="number" v-model="tagRating[index]"
-                      @keyup.enter="updateTagRating(tag, tagRating[index]); checkForSubmit = true"
+                      @keyup.enter="updateTagRating(tag, tagRating[index]); showAlert()"
                       @click.stop="checkForSubmit = false">
                   </td>
                 </tr>
@@ -88,6 +88,14 @@ export default {
       await updateRating_rpc(store.state.user.id, tag.name, gameTitle.value, tagRating);
     }
     return { submitRating, user, gameImage, gameTitle, tagData, updateTagRating, tagRating };
+  },
+  methods: {
+    showAlert() {
+      this.checkForSubmit = true;
+      setTimeout(() => {
+        this.checkForSubmit = false;
+      }, 5000);
+    }
   }
 }
 </script>
