@@ -1,16 +1,16 @@
 <template>
   <div class="min-h-screen min-w-screen flex flex-col">
-    <div v-if="!toggleDelete" class="w-1/3 mx-auto flex-1 flex flex-col items-center justify-center px-2">
+    <div v-if="!toggleDelete" class="min-w-1/3 w-1/3 h-1/3 m-auto flex-1 flex flex-col items-center justify-center px-2">
       <div class="relative w-full h-full">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 blur"></div>
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
           <h1 class="text-white text-center text-xl">Settings</h1>
-          <div class="flex flex-row justify-between">
-            <div class="flex flex-col w-1/2">
+          <div class="flex flex-col">
+            <div class="flex flex-col">
               <h1 class="text-white">Username: {{ userName }}</h1>
               <h1 class="text-white">Email: {{ email }}</h1>
             </div>
-            <button @click="toggleDelete = !toggleDelete" class="py-3 px-1 rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Delete Account</button>
+            <button @click="toggleDelete = !toggleDelete" class="py-3 px-1 w-1/4 m-auto rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Delete Account</button>
           </div>
         </div>
       </div>
