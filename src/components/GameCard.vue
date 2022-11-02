@@ -1,8 +1,8 @@
 <template>
-  <div class="flex w-screen h-screen m-auto content-center justify-center">
-    <div class="w-3/4 h-full">
-      <div class="flex flex-row h-2/5">
-        <div class="w-1/2 h-full" :style="{ background: 'url(' + gameImage + ')', 'background-size': 'cover'}">
+  <div class="absolute min-w-11/12 w-11/12 min-h-3/5 h-3/5 m-auto top-0 bottom-0 left-0 right-0">
+    <div class="h-full w-full flex-1 flex flex-col shadow-lg">
+      <div class="flex flex-row min-w-full min-h-full overflow-auto">
+        <div class="w-1/2" :style="{ background: 'url(' + gameImage + ')', 'background-size': 'cover'}">
           <span class="text-white text-3xl p-1 bg-black w-auto">{{ gameTitle }}</span>
         </div>
         <div class="w-1/2 bg-black scrollbar scrollbar-thumb-indigo-300">
@@ -28,7 +28,8 @@
         </div>
       </div>
     </div>
-    <div class="absolute bottom-10 right-20 " v-if="checkForSubmit">
+  </div>
+  <div class="absolute bottom-10 right-20 " v-if="checkForSubmit">
       <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md"
         role="alert">
         <div class="flex">
@@ -38,12 +39,11 @@
                 d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
             </svg></div>
           <div>
-            <p class="font-bold">Success</p>
+            <p class="font-bold">Rating Successfully Added!</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
