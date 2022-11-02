@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-screen h-screen m-auto content-center justify-center">
-    <div class="relative w-3/4 h-full">
+    <div class="w-3/4 h-full">
       <div class="flex flex-row h-2/5">
         <div class="w-1/2 h-full" :style="{ background: 'url(' + gameImage + ')', 'background-size': 'cover'}">
           <span class="text-white text-3xl p-1 bg-black w-auto">{{ gameTitle }}</span>
@@ -20,7 +20,7 @@
                 <td v-if="tag.avg_score" class="text-center">{{ tag.avg_score }}</td>
                 <td v-else class="text-center">Not rated</td>
                 <td v-if="user" class="text-center text-black">
-                  <input class="bg-white caret-white" type="number" v-model="tagRating[index]" @keyup.enter="updateTagRating(tag, tagRating[index]); showAlert()">
+                  <input class="bg-white caret-white" type="number" v-model="tagRating[index]" @keyup.enter="updateTagRating(tag, tagRating[index], index); showAlert()">
                 </td>
               </tr>
             </tbody>
@@ -68,8 +68,9 @@ export default {
     const tagData = computed(() => store.state.gameInfo.tagData);
     const tagRating = ref([]);
 
-    const updateTagRating = async (tag, tagRating) => {
-      await updateRating_rpc(store.state.user.id, tag.name, gameTitle.value, tagRating);
+    const updateTagRating = async (tag, rating, index) => {
+      var newAvgScore = await updateRating_rpc(store.state.user.id, tag.name, gameTitle.value, rating);
+      store.state.gameInfo.tagData[index].avg_score = newAvgScore;
     }
     return { user, gameImage, gameTitle, tagData, updateTagRating, tagRating };
   },
