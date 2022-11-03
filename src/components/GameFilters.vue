@@ -1,8 +1,10 @@
 <template>
-    <p>Genre: </p>
-    <Dropdown ddID=1 ref="genreDD" @itemSelected="setGenreSelected"></Dropdown>
-    <p>Platform: </p>
-    <Dropdown ddID=2 ref="platformDD" @itemSelected="setPlatformSelected"></Dropdown>
+    <div class="flex flex-row space-x-4 p-1">
+        <p>Genre: </p>
+        <Dropdown ddID=1 ref="genreDD" @itemSelected="setGenreSelected"></Dropdown>
+        <p>Platform: </p>
+        <Dropdown ddID=2 ref="platformDD" @itemSelected="setPlatformSelected"></Dropdown>
+    </div>
 </template>
 
 <script>

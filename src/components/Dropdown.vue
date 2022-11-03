@@ -1,5 +1,5 @@
 <template>
-  <select :id="ddID" @change="sendSelection"></select>
+  <select :id="ddID" @change="sendSelection" class="h-6 rounded-lg border-2"></select>
 </template>
 
 <script>
