@@ -1,5 +1,7 @@
 import { supabase } from './supabase'
+import axios from 'axios';
 import { handleError } from './error'
+const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
 export async function fetchGenres() {
 
@@ -27,4 +29,15 @@ export async function fetchPlatforms() {
     } catch (e) {
         handleError(e);
     }
+}
+
+export async function fetchGameDetails(gameID) {
+
+  try {
+    const url = `https://api.rawg.io/api/games/${gameID}` + `?key=${apiKey}`;
+    return await axios.get(url);
+    
+  } catch (err) {
+      handleError(err);
+  }
 }
