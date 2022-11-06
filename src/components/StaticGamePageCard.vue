@@ -12,7 +12,7 @@
         </span>
       </div>
       <!-- title -->
-      <div class="text-white text-4xl whitespace-nowrap mb-8 text-6xl flex-wrap">
+      <div class="text-white text-4xl whitespace-nowrap mb-8 flex-wrap">
         <!-- FIX: I want to wrap this so for no matter the lneght of the title it will kept center -->
         <div>Hollow Knight</div>
       </div>
