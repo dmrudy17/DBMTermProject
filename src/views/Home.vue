@@ -14,5 +14,4 @@ export default {
   components: {
     GameFilters,
   },
-}
 </script>
