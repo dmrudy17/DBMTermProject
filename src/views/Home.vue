@@ -5,9 +5,12 @@
         <h1 class="text-4xl text-white ml-5">Browse Hit Titles</h1>
         <!-- <DemoButtons></DemoButtons>
         <Dropdown></Dropdown> -->
+        <!-- <Popup></Popup> -->
         <Carousel />
       </div>
+
     </div>
+
   </div>
 </template>
 
@@ -15,12 +18,11 @@
 import DemoButtons from '../components/DemoButtons.vue'
 import Dropdown from '../components/Dropdown.vue';
 import Carousel from '../components/Carousel.vue';
-
 export default {
   components: {
     DemoButtons,
     Dropdown,
-    Carousel
+    Carousel,
   }
 }
 </script>

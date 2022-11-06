@@ -52,6 +52,7 @@ export default {
     let elementsToShow = 5;
 
     let cardWidth = sliderContainerWidth / elementsToShow;
+    let clientHeight = sliderContainer.clientHeight;
 
     slider.style.width = cards.length * cardWidth + 'px';
     slider.style.transition = 'margin';
