@@ -41,6 +41,21 @@ export async function updateRating_rpc(
     }
 }
 
+export async function getCarousel_rpc( genreIdArg, platformIdArg ) {
+
+    try {
+        const { data, error } = await supabase.rpc("get_carousel", {
+            genre_id_arg: genreIdArg,
+            platform_id_arg: platformIdArg,
+        });
+
+        if (error) throw error;
+        return data;
+    } catch (err) {
+        handleError(err);
+    }
+}
+
 // invoke the database function that clears to the table you want to clear
 // - includes clearGenresTable and clearPlatformsTable
 export async function clearTable(db_function) {

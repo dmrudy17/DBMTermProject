@@ -1,5 +1,5 @@
 <template>
-  <select :id="ddID" @change="sendSelection" class="h-6 rounded-lg border-2"></select>
+  <select :id="ddID" @change="sendSelection" class="h-6 rounded-r-lg border-2"></select>
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
 
     // setList() is called from parent
     setList(listFromParent) {
-      console.log("setting list: ", listFromParent);
+      
       for (var item of listFromParent) {
 
         var elem = document.createElement("option");
