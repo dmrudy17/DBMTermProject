@@ -1,77 +1,30 @@
 <template>
-  <select id="ddList" @change="filter"></select>
+  <select :id="ddID" @change="sendSelection" class="h-6 rounded-r-lg border-2"></select>
 </template>
 
 <script>
 
-import { supabase } from '../supabase'
-
 export default {
-  data() {
-    return {
-      genreList: []
-    }
-  },
-  async mounted() {
-    
-    await this.getGenres();
-    for (var genre of this.genreList) {
-
-      var elem = document.createElement("option");
-      elem.textContent = genre.name;
-      elem.value = genre.name;
-      document.getElementById("ddList").appendChild(elem);
-    }
-    
-  },
+  props: ['ddID'],
   methods: {
-    async getGenres() {
-      this.genreList.push({ genre_id: 0, name: 'All' })
 
-      try {
-        const { data, error } = await supabase.from('Genres').select()
+    // setList() is called from parent
+    setList(listFromParent) {
+      
+      for (var item of listFromParent) {
 
-        if (error) throw error
-
-        for (var genre of data) {
-    
-          this.genreList.push(genre)
-        }
-      } catch (e) {
-          handleError(e);
+        var elem = document.createElement("option");
+        elem.textContent = item.name;
+        elem.value = item.name;
+        document.getElementById(this.ddID).appendChild(elem);
       }
     },
-    async filter() {
+    async sendSelection() {
 
-      let selected = document.getElementById("ddList").value
-      console.log(selected)
-
-      try {
-
-        const { data, error } = await supabase.from('Genres').select('genre_id').eq('name', selected)
-
-        if (error) throw error
-
-        for (var id of data) {
-    
-          console.log(id);
-        }
-      } catch (e) {
-          handleError(e);
-      }
+      let item = document.getElementById(this.ddID).value;
+      this.$emit('itemSelected', item);
     }
   }
-}
-
-function handleError(e) {
-    
-    if (e.response) {
-        console.log("Server Error: ", e);
-    } else if (e.request) {
-        console.log("Network Error: ", e);
-    } else {
-        console.log("Client Error: ", e);
-    }
 }
 
 </script>
