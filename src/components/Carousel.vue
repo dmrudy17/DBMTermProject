@@ -7,11 +7,13 @@
         </button>
       </div>
     </div>
-    <div id="sliderContainer" class="w-10/12 h-full overflow-hidden">
+    <div id="sliderContainer" class="w-full h-full overflow-hidden">
+
       <ul id="slider" class="flex w-full">
-        <li v-for="n in items" :key="n" class="w-96 p-5 text-white h-full">
+        <li v-for="n in items" :key="n" class="w-96 p-4  text-white h-full">
           <CarouselCard />
         </li>
+
       </ul>
     </div>
     <div class="w-1/12 text-white flex items-center">
@@ -32,7 +34,7 @@ import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 export default {
   data() {
     return {
-      items: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      items: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
       index: 0
     }
   },
@@ -50,6 +52,7 @@ export default {
     let elementsToShow = 5;
 
     let cardWidth = sliderContainerWidth / elementsToShow;
+    let clientHeight = sliderContainer.clientHeight;
 
     slider.style.width = cards.length * cardWidth + 'px';
     slider.style.transition = 'margin';
@@ -82,7 +85,7 @@ export default {
       let elementsToShow = 5;
 
       let cardWidth = sliderContainerWidth / elementsToShow;
-      
+
       if (this.index != 0) {
         this.index--;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';

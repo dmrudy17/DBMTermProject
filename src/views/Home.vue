@@ -3,16 +3,16 @@
     <div class="absolute m-0 top-52 left-0 right-0 space-x-4">
       <GameFilters></GameFilters>
     </div>
+
   </div>
 </template>
 
 <script>
-import DemoButtons from '../components/DemoButtons.vue'
 import GameFilters from '../components/GameFilters.vue'
 
 export default {
   components: {
-    GameFilters,
-  },
+    GameFilters
+  }
 }
 </script>
