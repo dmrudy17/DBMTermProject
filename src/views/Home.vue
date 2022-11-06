@@ -12,7 +12,7 @@ import GameFilters from '../components/GameFilters.vue'
 
 export default {
   components: {
-    GameFilters,
-  },
+    GameFilters
+  }
 }
 </script>
