@@ -10,7 +10,7 @@
     <ul class="inline-grid grid-cols-4 gap-10 scale-90">
       <!-- <img class="w-10 relative right-10 rounded-md" src="../assets/upvote.png"> -->
       <ArrowLongUpIcon class="scale-150 hover:bg-blue-600"></ArrowLongUpIcon>
-      <div v-for=" n in items">
+      <div v-for=" n in items" :key="n">
         <li>
           <button @click.prevent
             class=" items-center relative right-8 bg-rose-800 box-content h-9 w-20 text-xs rounded-full">
@@ -21,7 +21,7 @@
     </ul>
     <tr class="inline-grid grid-cols-4 gap-10 scale-90">
       <ArrowLongDownIcon class="scale-150 hover:bg-gray-600"></ArrowLongDownIcon>
-      <div v-for=" n in items">
+      <div v-for=" n in items" :key="n">
         <td>
           <button @click.prevent
             class="items-center relative right-8  bg-gray-600 box-content h-9 w-20 text-xs rounded-full">
@@ -43,7 +43,6 @@
 
 <script>
 import { ArrowLongDownIcon, ArrowLongUpIcon, ArrowUpIcon, ArrowUpLeftIcon, CheckBadgeIcon } from '@heroicons/vue/24/outline';
-import { ArrowDownIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 import Modal from '../views/Modal.vue';
 export default {
