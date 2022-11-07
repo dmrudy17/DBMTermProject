@@ -43,7 +43,7 @@ export default {
             // use values of genreSelected.genre_id and platformSelected.platform_id as arguments for getCarousel_rpc()
             // note that values of 0 (or lower) will not apply the filter, i.e. if genre_id is 0, then all genres will
             // be included in the carousel.  Selecting 'All' from the dd will set this value
-            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id, this.platformSelected.platform_id, 1);
+            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id, this.platformSelected.platform_id, 8);
             console.log(carouselCards);
             store.methods.setCarouselCards(carouselCards);
         },

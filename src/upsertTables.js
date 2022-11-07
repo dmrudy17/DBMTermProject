@@ -16,7 +16,7 @@ const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 // Tags, Game To Tag, Game To Genre, and Game To Platform
 export async function upsertFromGames() {
 
-    const totalPagesWeWant = 1;
+    const totalPagesWeWant = 25;
     const pageSize = 40;
     const baseURL = "https://api.rawg.io/api/games";
 
@@ -56,7 +56,7 @@ export async function upsertFromGames() {
 
             for (var tag of game.tags) {
                 allTags.add({ tag_id: tag.id, tag_name: tag.name, is_rateable: true, description: ""})
-                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, avg_score: null, times_rated: null });
+                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, avg_score: null, times_rated: 0 });
             }
 
             allGames.push({
