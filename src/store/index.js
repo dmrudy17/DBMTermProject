@@ -7,6 +7,7 @@ const state = reactive({
         title: "",
         tagData: [], // array of objects { tagName: '', score: '' }
     },
+    carouselCards: [],
 });
 
 const methods = {
@@ -18,6 +19,11 @@ const methods = {
             state.gameInfo.image = payload.image;
             state.gameInfo.title = payload.title;
             state.gameInfo.tagData = payload.tagData;
+        }
+    },
+    setCarouselCards(payload) {
+        if (payload) {
+            state.carouselCards = payload;
         }
     },
 };

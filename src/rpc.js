@@ -41,12 +41,12 @@ export async function updateRating_rpc(
     }
 }
 
-export async function getCarousel_rpc( genreIdArg, platformIdArg ) {
-
+export async function getCarousel_rpc(genreIdArg, platformIdArg, pageNumber) {
     try {
         const { data, error } = await supabase.rpc("get_carousel", {
             genre_id_arg: genreIdArg,
             platform_id_arg: platformIdArg,
+            page: pageNumber,
         });
 
         if (error) throw error;
