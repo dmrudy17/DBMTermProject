@@ -7,11 +7,13 @@
         </button>
       </div>
     </div>
-    <div id="sliderContainer" class="w-10/12 h-full overflow-hidden">
+    <div id="sliderContainer" class="w-full h-full overflow-hidden">
+
       <ul id="slider" class="flex w-full">
-        <li v-for="n in items" :key="n" class="w-96 p-5 text-white h-full">
-          <CarouselCard />
+        <li v-for="card in carouselCards" :key="card" class="p-5 text-white w-96">
+          <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" />
         </li>
+
       </ul>
     </div>
     <div class="w-1/12 text-white flex items-center">
@@ -28,13 +30,19 @@
 import CarouselCard from './CarouselCard.vue';
 import { ChevronLeftIcon } from '@heroicons/vue/24/outline';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
+import store from '../store/index';
+import { computed } from 'vue';
 
 export default {
   data() {
     return {
-      items: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       index: 0
     }
+  },
+  setup() {
+    var carouselCards = computed(() => store.state.carouselCards);
+
+    return { carouselCards };
   },
   components: {
     CarouselCard,
@@ -47,14 +55,15 @@ export default {
     let cards = document.getElementsByTagName('li');
 
     let sliderContainerWidth = sliderContainer.clientWidth;
-    let elementsToShow = 5;
+    let elementsToShow = 4;
 
     let cardWidth = sliderContainerWidth / elementsToShow;
 
-    slider.style.width = cards.length * cardWidth + 'px';
+    slider.style.width = 20 * cardWidth + 'px';
     slider.style.transition = 'margin';
     slider.style.transitionDuration = '1s';
 
+    console.log(this.carouselCards.length);
     for (let index = 0; index < cards.length; index++) {
       const element = cards[index];
       element.style.width = cardWidth + 'px';
@@ -66,10 +75,10 @@ export default {
       let slider = document.getElementById('slider');
 
       let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 5;
+      let elementsToShow = 4;
 
       let cardWidth = sliderContainerWidth / elementsToShow;
-      if (this.index != this.items.length - elementsToShow) {
+      if (this.index != this.carouselCards.length - elementsToShow) {
         this.index++;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - cardWidth) + 'px';
       }
@@ -79,10 +88,10 @@ export default {
       let slider = document.getElementById('slider');
 
       let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 5;
+      let elementsToShow = 4;
 
       let cardWidth = sliderContainerWidth / elementsToShow;
-      
+
       if (this.index != 0) {
         this.index--;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
