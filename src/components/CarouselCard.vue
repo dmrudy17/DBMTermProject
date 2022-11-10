@@ -30,9 +30,11 @@
       </div>
     </div>
     <div class="flex flex-row w-full justify-between items-end">
-      <HandThumbUpIcon v-if="!isLiked" class="stroke-white h-8 w-8 cursor-pointer" @click="handleAddLike()" />
-      <HandThumbUpIcon v-else class="stroke-white fill-orange-400 h-8 w-8 cursor-pointer" @click="handleAddLike()" />
       <button @click="() => TogglePopup('buttonTrigger')" class="mt-4 px-4 py-2 rounded-md bg-indigo-500">View</button>
+      <div v-if="user">
+        <HandThumbUpIcon v-if="!isLiked" class="stroke-white h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+        <HandThumbUpIcon v-else class="stroke-white fill-orange-400 h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+      </div>
     </div>
     <Modal v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')"></Modal>
   </div>
@@ -42,6 +44,8 @@
 import { ChevronDoubleDownIcon, ChevronDoubleUpIcon, HandThumbUpIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 import Modal from '../views/Modal.vue';
+import store from '../store/index';
+import { computed } from 'vue';
 export default {
   props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons'],
   data() {
@@ -56,6 +60,7 @@ export default {
     HandThumbUpIcon
   },
   setup() {
+    const user = computed(() => store.state.user);
     const popupTriggers = ref({
       buttonTrigger: false,
     });
@@ -64,6 +69,7 @@ export default {
     }
 
     return {
+      user,
       popupTriggers,
       TogglePopup
     }
