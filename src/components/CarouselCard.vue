@@ -1,61 +1,61 @@
 <template>
-  <div class="container h-full border rounded-lg p-4">
-    <img class="h-50 w-full object-cover rounded-md" src="../assets/pikachusad.jpg">
-
-    <h2 class="mt-2 text-2xl font-bold"> Lorem ipsum dolor sit amet</h2>
-    <p class="mt-2">
-      <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. -->
-
-    <ul class="inline-grid grid-cols-4 gap-10 scale-90">
-      <!-- <img class="w-10 relative right-10 rounded-md" src="../assets/upvote.png"> -->
-      <ArrowLongUpIcon class="scale-150 hover:bg-blue-600"></ArrowLongUpIcon>
-      <div v-for=" n in items">
+  <div class="container min-h-full min-w-full h-full w-full border rounded-lg p-4 bg-black flex flex-col justify-between">
+    <img class="h-48 w-96 rounded-md" :src="image">
+    <h2 class="mt-2 text-2xl font-bold">{{ title }} </h2>
+    <ul class="inline-grid grid-cols-4 gap-10 w-full">
+      <ChevronDoubleUpIcon class="stroke-lime-400 h-8 w-8"></ChevronDoubleUpIcon>
+      <div v-for="upTag in topTags" :key="upTag">
         <li>
           <button @click.prevent
-            class=" items-center relative right-8 bg-rose-800 box-content h-9 w-20 text-xs rounded-full">
-            Loremips dolor sit amet
+            class="items-center relative right-8 bg-rose-800 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
+            {{ upTag }}
           </button>
         </li>
       </div>
     </ul>
-    <tr class="inline-grid grid-cols-4 gap-10 scale-90">
-      <ArrowLongDownIcon class="scale-150 hover:bg-gray-600"></ArrowLongDownIcon>
-      <div v-for=" n in items">
+    <tr class="inline-grid grid-cols-4 gap-10">
+      <ChevronDoubleDownIcon class="stroke-red-600 h-8 w-8"></ChevronDoubleDownIcon>
+      <div v-for="downTag in bottomTags" :key="downTag">
         <td>
           <button @click.prevent
-            class="items-center relative right-8  bg-gray-600 box-content h-9 w-20 text-xs rounded-full">
-
-            Nah
+            class="items-center relative right-8  bg-gray-600 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
+            {{ downTag }}
           </button>
         </td>
       </div>
     </tr>
-
-    </p>
-
-    <button @click="() => TogglePopup('buttonTrigger')" class="mt-4 px-6 py-3 rounded-md bg-indigo-500" v>Read
-      More</button>
+    <div class="w-full flex flex-row">
+      <div v-for="platformIcon in platformIcons" :key="platformIcon">
+        <img :src="platformIcon" class="h-6 w-6 m-1">
+      </div>
+    </div>
+    <div class="flex flex-row w-full justify-between items-end">
+      <HandThumbUpIcon v-if="!isLiked" class="stroke-white h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+      <HandThumbUpIcon v-else class="stroke-white fill-orange-400 h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+      <button @click="() => TogglePopup('buttonTrigger')" class="mt-4 px-4 py-2 rounded-md bg-indigo-500">View</button>
+    </div>
     <Modal v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')"></Modal>
-    <!-- < v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')">></Popup> -->
   </div>
 </template>
 
 <script>
-import { ArrowLongDownIcon, ArrowLongUpIcon, ArrowUpIcon, ArrowUpLeftIcon, CheckBadgeIcon } from '@heroicons/vue/24/outline';
-import { ArrowDownIcon } from '@heroicons/vue/24/outline';
+import { ChevronDoubleDownIcon, ChevronDoubleUpIcon, HandThumbUpIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 import Modal from '../views/Modal.vue';
 export default {
+  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons'],
   data() {
     return {
-      items: [0, 1, 2],
-      index: 0
+      isLiked: false
     }
   },
-
-  components: { Modal, ArrowLongUpIcon, ArrowLongDownIcon }
-  , setup() {
+  components: { 
+    Modal,
+    ChevronDoubleUpIcon,
+    ChevronDoubleDownIcon,
+    HandThumbUpIcon
+  },
+  setup() {
     const popupTriggers = ref({
       buttonTrigger: false,
     });
@@ -66,6 +66,11 @@ export default {
     return {
       popupTriggers,
       TogglePopup
+    }
+  },
+  methods: {
+    handleAddLike() {
+      this.isLiked = !this.isLiked;
     }
   }
 }
