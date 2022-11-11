@@ -4,9 +4,10 @@
     <h2 class="mt-2 text-2xl font-bold">{{ title }} </h2>
     <ul class="inline-grid grid-cols-4 gap-10 w-full">
       <ChevronDoubleUpIcon class="stroke-lime-400 h-8 w-8"></ChevronDoubleUpIcon>
-      <div v-for="upTag in topTags" :key="upTag">
+      <div v-for="(upTag, index) in topTags" :key="index">
         <li>
           <button @click.prevent
+            :title="topTags[index]"
             class="items-center relative right-8 bg-rose-800 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
             {{ upTag }}
           </button>
@@ -15,9 +16,10 @@
     </ul>
     <tr class="inline-grid grid-cols-4 gap-10">
       <ChevronDoubleDownIcon class="stroke-red-600 h-8 w-8"></ChevronDoubleDownIcon>
-      <div v-for="downTag in bottomTags" :key="downTag">
+      <div v-for="(downTag, index) in bottomTags" :key="index">
         <td>
           <button @click.prevent
+            :title="bottomTags[index]"
             class="items-center relative right-8  bg-gray-600 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
             {{ downTag }}
           </button>
