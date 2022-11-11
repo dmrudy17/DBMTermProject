@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <div class="container h-full border rounded-lg hover:border-lime-400 p-4 bg-black hover:bg-slate-900
         flex flex-col justify-between">
@@ -85,3 +86,84 @@ export default {
   }
 }
 </script>
+=======
+<template>
+  <div class="container min-h-full min-w-full h-full w-full border rounded-lg p-4 bg-black flex flex-col justify-between">
+    <img class="h-48 w-96 rounded-md" :src="image">
+    <h2 class="mt-2 text-2xl font-bold">{{ title }} </h2>
+    <ul class="inline-grid grid-cols-4 gap-10 w-full">
+      <ChevronDoubleUpIcon class="stroke-lime-400 h-8 w-8"></ChevronDoubleUpIcon>
+      <div v-for="(upTag, index) in topTags" :key="index">
+        <li>
+          <button @click.prevent
+            :title="topTags[index]"
+            class="items-center relative right-8 bg-rose-800 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
+            {{ upTag }}
+          </button>
+        </li>
+      </div>
+    </ul>
+    <tr class="inline-grid grid-cols-4 gap-10">
+      <ChevronDoubleDownIcon class="stroke-red-600 h-8 w-8"></ChevronDoubleDownIcon>
+      <div v-for="(downTag, index) in bottomTags" :key="index">
+        <td>
+          <button @click.prevent
+            :title="bottomTags[index]"
+            class="items-center relative right-8  bg-gray-600 box-content h-9 w-16 text-xs rounded-md whitespace-nowrap truncate">
+            {{ downTag }}
+          </button>
+        </td>
+      </div>
+    </tr>
+    <div class="w-full flex flex-row">
+      <div v-for="platformIcon in platformIcons" :key="platformIcon">
+        <img :src="platformIcon" class="h-6 w-6 m-1">
+      </div>
+    </div>
+    <div class="flex flex-row w-full justify-between items-end">
+      <HandThumbUpIcon v-if="!isLiked" class="stroke-white h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+      <HandThumbUpIcon v-else class="stroke-white fill-orange-400 h-8 w-8 cursor-pointer" @click="handleAddLike()" />
+      <button @click="() => TogglePopup('buttonTrigger')" class="mt-4 px-4 py-2 rounded-md bg-indigo-500">View</button>
+    </div>
+    <Modal v-if="popupTriggers.buttonTrigger" :TogglePopup="() => TogglePopup('buttonTrigger')"></Modal>
+  </div>
+</template>
+
+<script>
+import { ChevronDoubleDownIcon, ChevronDoubleUpIcon, HandThumbUpIcon } from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
+import Modal from '../views/Modal.vue';
+export default {
+  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons'],
+  data() {
+    return {
+      isLiked: false
+    }
+  },
+  components: { 
+    Modal,
+    ChevronDoubleUpIcon,
+    ChevronDoubleDownIcon,
+    HandThumbUpIcon
+  },
+  setup() {
+    const popupTriggers = ref({
+      buttonTrigger: false,
+    });
+    const TogglePopup = (trigger) => {
+      popupTriggers.value[trigger] = !popupTriggers.value[trigger]
+    }
+
+    return {
+      popupTriggers,
+      TogglePopup
+    }
+  },
+  methods: {
+    handleAddLike() {
+      this.isLiked = !this.isLiked;
+    }
+  }
+}
+</script>
+>>>>>>> Add tooltip to tag buttons on carousel card
