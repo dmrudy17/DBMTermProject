@@ -11,6 +11,20 @@ const state = reactive({
 });
 
 const methods = {
+    alphabetically() {
+        return function (a, b) {
+            if (a === b) {
+                return 0;
+            }
+            if (a === null) {
+                return 1;
+            }
+            if (b === null) {
+                return -1;
+            }
+            return a < b ? 1 : -1;
+        };
+    },
     setUser(payload) {
         state.user = payload ? payload.user : null;
     },
@@ -18,7 +32,13 @@ const methods = {
         if (payload) {
             state.gameInfo.image = payload.image;
             state.gameInfo.title = payload.title;
-            state.gameInfo.tagData = payload.tagData;
+            state.gameInfo.tagData = payload.tagData.sort(function (a, b) {
+                return (
+                    (a.avg_score === null) - (b.avg_score === null) ||
+                    -(a.avg_score > b.avg_score) ||
+                    +(a.avg_score < b.avg_score)
+                );
+            });
         }
     },
     setCarouselCards(payload) {
