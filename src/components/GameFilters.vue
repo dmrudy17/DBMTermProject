@@ -1,11 +1,11 @@
 <template>
     <div>
-        <InputDD inputID="titleKW" ddID="titleDDDiv" listID="titleList" ref="titleDD" @textSent="setTitleKeyword"></InputDD>
+        <InputDD inputID="titleKW" ddID="titleDDDiv" listID="titleList" ref="titleDD" @textSent="passTitleKWToBrowser"></InputDD>
         <div class="flex flex-row space-x-1 p-1">
             <p class="bg-white rounded-l-lg px-1">Genre:</p>
-            <Dropdown ddID="dd1" ref="genreDD" @itemSelected="setGenreSelected"></Dropdown>
+            <Dropdown ddID="dd1" ref="genreDD" @itemSelected="passGenreToBrowser"></Dropdown>
             <p class="bg-white rounded-l-lg px-1">Platform: </p>
-            <Dropdown ddID="dd2" ref="platformDD" @itemSelected="setPlatformSelected"></Dropdown>
+            <Dropdown ddID="dd2" ref="platformDD" @itemSelected="passPlatformToBrowser"></Dropdown>
         </div>
     </div>
 </template>
@@ -15,8 +15,6 @@
 import InputDD from '../components/InputDD.vue';
 import Dropdown from '../components/Dropdown.vue';
 import { fetchGenres, fetchPlatforms, fetchGameTitles } from '../fetch';
-import { getCarousel_rpc } from '../rpc';
-import store from '../store/index';
 
 export default {
 
@@ -26,52 +24,36 @@ export default {
     },
     data() {
         return {
-            genreList: [], // stores objects { genre_id: '', name: '' }
-            genreSelected: { genre_id: 0, name: 'All' },
-            platformList: [], // stores objects { platform_id: '', name: '' }
-            platformSelected: { platform_id: 0, name: 'All'},
-            titleKeyword: '',
-            currentPage: 1,
+            genreList: [ { genre_id: 0, name: 'All' } ],
+            platformList: [ { platform_id: 0, name: 'All'} ],
         }
     },
     async mounted() {
 
-        this.genreList = [ this.genreSelected ].concat(await fetchGenres());
-        this.platformList = [ this.platformSelected ].concat(await fetchPlatforms());
-
+        this.genreList = this.genreList.concat(await fetchGenres());
+        this.platformList = this.platformList.concat(await fetchPlatforms());
+        
         this.$refs.titleDD.setList( await fetchGameTitles());
         this.$refs.genreDD.setList(this.genreList);
         this.$refs.platformDD.setList(this.platformList);
 
-        this.applyFilter();
+        this.$emit('init', this.genreList[0], this.platformList[0]);
     },
     methods: {
-        async applyFilter() {
+        passGenreToBrowser(gName) {
 
-            // use values of genreSelected.genre_id and platformSelected.platform_id as arguments for getCarousel_rpc()
-            // note that values of 0 (or lower) will not apply the filter, i.e. if genre_id is 0, then all genres will
-            // be included in the carousel.  Selecting 'All' from the dd will set this value
-            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
-                                                        this.platformSelected.platform_id,
-                                                        this.currentPage);
-            console.log(carouselCards);
-            store.methods.setCarouselCards(carouselCards);
+            const genreSelected = this.genreList.find(elem => elem.name == gName);
+            this.$emit('genreSelected', genreSelected);
         },
-        async setGenreSelected(genreSelected) {
+        passPlatformToBrowser(pName) {
 
-            this.genreSelected = this.genreList.find(elem => elem.name == genreSelected);
-            this.applyFilter();
+            const platformSelected = this.platformList.find(elem => elem.name == pName);
+            this.$emit('platformSelected', platformSelected);
         },
-        async setPlatformSelected(platformSelected) {
+        passTitleKWToBrowser(kw) {
 
-            this.platformSelected = this.platformList.find(elem => elem.name == platformSelected);
-            this.applyFilter();
+            this.$emit('titleKWSet', kw);
         },
-        async setTitleKeyword(kw) {
-
-            this.titleKeyword = kw;
-            console.log("recieved ", this.titleKeyword);
-        }
     },
 }
 </script>
