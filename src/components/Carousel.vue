@@ -52,6 +52,7 @@ export default {
   mounted() {
     let sliderContainer = document.getElementById('sliderContainer');
     let slider = document.getElementById('slider');
+    slider.addEventListener("wheel", this.wheelHandler);
     let cards = document.getElementsByTagName('li');
 
     let sliderContainerWidth = sliderContainer.clientWidth;
@@ -73,7 +74,7 @@ export default {
     showNext() {
       let sliderContainer = document.getElementById('sliderContainer');
       let slider = document.getElementById('slider');
-
+      
       let sliderContainerWidth = sliderContainer.clientWidth;
       let elementsToShow = 4;
 
@@ -96,6 +97,12 @@ export default {
         this.index--;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
       }
+    },
+    wheelHandler(e) {
+      if (e.deltaY < 0)
+        this.showPrevious();
+      else if (e.deltaY > 0)
+        this.showNext();
     }
   }
 }
