@@ -36,7 +36,8 @@ import { computed } from 'vue';
 export default {
   data() {
     return {
-      index: 0
+      index: 0,
+      wheelTimer: null, // allows us to adjust scroll speed
     }
   },
   setup() {
@@ -99,10 +100,22 @@ export default {
       }
     },
     wheelHandler(e) {
-      if (e.deltaY < 0)
-        this.showPrevious();
-      else if (e.deltaY > 0)
-        this.showNext();
+
+      if (this.wheelTimer === null) {
+
+          if (e.deltaY < 0)
+            this.showPrevious();
+          else if (e.deltaY > 0)
+            this.showNext();
+
+          // the number entered here determines scroll speed, with smaller numbers meaning faster speed
+          // i.e. 100 will allow for 1 showNext/showPrev every .1 secs, 500 allows for 1 every .5 secs, etc
+          this.wheelTimer = setTimeout(this.clearWheelTimer, 350);
+      }
+    },
+    clearWheelTimer() {
+      clearTimeout(this.wheelTimer);
+      this.wheelTimer = null;
     }
   }
 }
