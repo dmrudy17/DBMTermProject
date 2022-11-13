@@ -1,5 +1,6 @@
 <template>
-  <div class="container h-full border rounded-lg p-4 bg-black flex flex-col justify-between">
+  <div class="container h-full border rounded-lg hover:border-lime-400 p-4 bg-black hover:bg-slate-900
+        flex flex-col justify-between">
     <img class="h-48 w-96 rounded-md" :src="image">
     <div class="h-16 overflow-hidden">
       <h2 v-if="title.length < 50" class="text-2xl font-bold">{{ title }} </h2>
