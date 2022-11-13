@@ -57,7 +57,7 @@ export default {
     let cards = document.getElementsByTagName('li');
 
     let sliderContainerWidth = sliderContainer.clientWidth;
-    let elementsToShow = 4;
+    let elementsToShow = Math.min(4, this.carouselCards.length);
 
     let cardWidth = sliderContainerWidth / elementsToShow;
 
@@ -77,11 +77,11 @@ export default {
       let slider = document.getElementById('slider');
       
       let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 4;
+      let elementsToShow = Math.min(4, this.carouselCards.length);
 
       let cardWidth = sliderContainerWidth / elementsToShow;
       
-      if (this.index != this.carouselCards.length - elementsToShow) {
+      if (this.index < this.carouselCards.length - elementsToShow) {
         this.index++;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - cardWidth) + 'px';
 
@@ -94,14 +94,19 @@ export default {
       }
 
       console.log(this.index);
-      console.log(this.carouselCards.length);
+      console.log(this.carouselCards.length, this.carouselCards);
+      let cards = document.getElementsByTagName('li');
+      console.log(cards);
+      for (var c of cards) {
+        console.log(c);
+      }
     },
     showPrevious() {
       let sliderContainer = document.getElementById('sliderContainer');
       let slider = document.getElementById('slider');
 
       let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 4;
+      let elementsToShow = Math.min(4, this.carouselCards.length);
 
       let cardWidth = sliderContainerWidth / elementsToShow;
     
@@ -110,6 +115,7 @@ export default {
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
       }
       console.log(this.index);
+      console.log(this.carouselCards.length);
     },
     updateCards() {
 
@@ -117,12 +123,18 @@ export default {
 
       this.carouselCards = computed(() => store.state.carouselCards);
     },
-    resetMargin() {
+    reset() {
 
-      // called from GameBrowser.vue after reseting applying a new filter
-
+      // called from GameBrowser.vue after applying a new filter
+      this.index = 0;
       let slider = document.getElementById('slider');
       slider.style.marginLeft = 0;
+      console.log(this.index);
+      console.log(this.carouselCards.length);
+      let cards = document.getElementsByTagName('li');
+      for (var c of cards) {
+        console.log(c);
+      }
     },
     wheelHandler(e) {
 

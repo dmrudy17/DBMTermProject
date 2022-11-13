@@ -7,7 +7,7 @@
 -->
 
 <template>
-    <div class="absolute m-auto top-16 left-0 right-0">
+    <div class="absolute m-auto top-16 left-0 right-0 overflow-hidden">
         <div class="ml-32">
             <h1 class="text-3xl text-white">Browse Hit Titles</h1>
             <GameFilters    @init="initialize" @titleKWSet="applyKeyWordFilter"
@@ -71,14 +71,14 @@ export default {
             this.genreSelected = g;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
-            this.$refs.carousel.resetMargin();
+            this.$refs.carousel.reset();
         },
         async applyPlatformFilter(p) {
 
             this.platformSelected = p;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
-            this.$refs.carousel.resetMargin();
+            this.$refs.carousel.reset();
         },
         async applyKeyWordFilter(kw) {
             
@@ -87,7 +87,7 @@ export default {
                 this.titleKeyWord = kw;
                 this.currentPage = 1;
                 await this.fetchAndSetCarousel()
-                this.$refs.carousel.resetMargin();
+                this.$refs.carousel.reset();
             }
         }
     }
