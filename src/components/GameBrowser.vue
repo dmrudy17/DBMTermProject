@@ -8,8 +8,11 @@
 
 <template>
     <div class="absolute m-auto top-16 left-0 right-0">
-        <h1 class="text-3xl text-white">Browse Hit Titles</h1>
-        <GameFilters @init="initialize" @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" />
+        <div class="ml-32">
+            <h1 class="text-3xl text-white">Browse Hit Titles</h1>
+            <GameFilters    @init="initialize" @titleKWSet="applyKeyWordFilter"
+                            @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" />
+        </div>
         <Carousel ref="carousel" @endOfCarousel="fetchNextPage" />
     </div>
 </template>
@@ -41,6 +44,7 @@ export default {
             
             const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
                                                         this.platformSelected.platform_id,
+                                                        this.titleKeyWord,
                                                         this.currentPage);
 
             store.methods.setCarouselCards(carouselCards);
@@ -50,7 +54,9 @@ export default {
             this.currentPage++;
             const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
                                                         this.platformSelected.platform_id,
+                                                        this.titleKeyWord,
                                                         this.currentPage);
+                                                        
             store.methods.addCarouselCards(carouselCards);
             this.$refs.carousel.updateCards();
         },
@@ -74,6 +80,16 @@ export default {
             await this.fetchAndSetCarousel();
             this.$refs.carousel.resetMargin();
         },
+        async applyKeyWordFilter(kw) {
+            
+            if (kw != this.titleKeyWord) {
+
+                this.titleKeyWord = kw;
+                this.currentPage = 1;
+                await this.fetchAndSetCarousel()
+                this.$refs.carousel.resetMargin();
+            }
+        }
     }
 }
 </script>
