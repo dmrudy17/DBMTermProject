@@ -61,16 +61,18 @@ export default {
             await this.fetchAndSetCarousel();
         },
         async applyGenreFilter(g) {
-
+            
             this.genreSelected = g;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
+            this.$refs.carousel.resetMargin();
         },
         async applyPlatformFilter(p) {
 
             this.platformSelected = p;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
+            this.$refs.carousel.resetMargin();
         },
     }
 }

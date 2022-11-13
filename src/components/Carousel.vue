@@ -9,7 +9,7 @@
     </div>
     <div id="sliderContainer" class="w-full h-full overflow-hidden">
 
-      <ul id="slider" class="flex w-full">
+      <ul id="slider" class="grid grid-rows-1 grid-flow-col">
         <li v-for="card in carouselCards" :key="card" class="p-5 text-white w-96">
           <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" />
         </li>
@@ -80,6 +80,7 @@ export default {
       let elementsToShow = 4;
 
       let cardWidth = sliderContainerWidth / elementsToShow;
+      
       if (this.index != this.carouselCards.length - elementsToShow) {
         this.index++;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - cardWidth) + 'px';
@@ -88,7 +89,7 @@ export default {
 
           // this will tell the parent to fetch more cards.  the parent will then trigger updateCards
           // adding more cards will squish the cards though, not sure how to fix this.
-          //this.$emit('endOfCarousel');
+          this.$emit('endOfCarousel');
         }
       }
 
@@ -103,7 +104,7 @@ export default {
       let elementsToShow = 4;
 
       let cardWidth = sliderContainerWidth / elementsToShow;
-
+    
       if (this.index != 0) {
         this.index--;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
@@ -112,7 +113,16 @@ export default {
     },
     updateCards() {
 
+      // called from GameBrowser.vue after appending more cards to the list in store
+
       this.carouselCards = computed(() => store.state.carouselCards);
+    },
+    resetMargin() {
+
+      // called from GameBrowser.vue after reseting applying a new filter
+
+      let slider = document.getElementById('slider');
+      slider.style.marginLeft = 0;
     },
     wheelHandler(e) {
 
