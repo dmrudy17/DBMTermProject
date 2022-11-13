@@ -83,7 +83,17 @@ export default {
       if (this.index != this.carouselCards.length - elementsToShow) {
         this.index++;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - cardWidth) + 'px';
+
+        if (this.index == this.carouselCards.length - elementsToShow - 2) {
+
+          // this will tell the parent to fetch more cards.  the parent will then trigger updateCards
+          // adding more cards will squish the cards though, not sure how to fix this.
+          //this.$emit('endOfCarousel');
+        }
       }
+
+      console.log(this.index);
+      console.log(this.carouselCards.length);
     },
     showPrevious() {
       let sliderContainer = document.getElementById('sliderContainer');
@@ -98,6 +108,11 @@ export default {
         this.index--;
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
       }
+      console.log(this.index);
+    },
+    updateCards() {
+
+      this.carouselCards = computed(() => store.state.carouselCards);
     },
     wheelHandler(e) {
 
@@ -110,7 +125,7 @@ export default {
 
           // the number entered here determines scroll speed, with smaller numbers meaning faster speed
           // i.e. 100 will allow for 1 showNext/showPrev every .1 secs, 500 allows for 1 every .5 secs, etc
-          this.wheelTimer = setTimeout(this.clearWheelTimer, 350);
+          this.wheelTimer = setTimeout(this.clearWheelTimer, 500);
       }
     },
     clearWheelTimer() {

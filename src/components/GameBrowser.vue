@@ -1,8 +1,16 @@
+<!-- 
+    GameBrowser.vue
+    Includes the game display carousel as well as the search and filter components
+
+    Since we need data from both the Carousel (page number) and GameFilters (genre, platform, title) components 
+    to make the call to get_carousel, it made sense to house these in this parent component
+-->
+
 <template>
     <div class="absolute m-auto top-16 left-0 right-0">
         <h1 class="text-3xl text-white">Browse Hit Titles</h1>
-        <GameFilters @init="initialize" @genreSelected="setGenreSelected" @platformSelected="setPlatformSelected" />
-        <Carousel />
+        <GameFilters @init="initialize" @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" />
+        <Carousel ref="carousel" @endOfCarousel="fetchNextPage" />
     </div>
 </template>
 
@@ -29,30 +37,40 @@ export default {
     },
     methods: {
 
-        async fetchFilteredPage() {
+        async fetchAndSetCarousel() {
             
             const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
                                                         this.platformSelected.platform_id,
                                                         this.currentPage);
 
-            console.log(carouselCards);
             store.methods.setCarouselCards(carouselCards);
         },
-        initialize(g, p) {
+        async fetchNextPage() {
+
+            this.currentPage++;
+            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
+                                                        this.platformSelected.platform_id,
+                                                        this.currentPage);
+            store.methods.addCarouselCards(carouselCards);
+            this.$refs.carousel.updateCards();
+        },
+        async initialize(g, p) {
 
             this.genreSelected = g;
             this.platformSelected = p;
-            this.fetchFilteredPage();
+            await this.fetchAndSetCarousel();
         },
-        setGenreSelected(g) {
+        async applyGenreFilter(g) {
 
             this.genreSelected = g;
-            this.fetchFilteredPage();
+            this.currentPage = 1;
+            await this.fetchAndSetCarousel();
         },
-        setPlatformSelected(p) {
+        async applyPlatformFilter(p) {
 
             this.platformSelected = p;
-            this.fetchFilteredPage();
+            this.currentPage = 1;
+            await this.fetchAndSetCarousel();
         },
     }
 }
