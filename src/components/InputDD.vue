@@ -21,7 +21,7 @@ export default {
             itemList: [],
             displayedItemList: [],
             ddDisplayTimer: undefined,
-            selectedItemIndex: 0,
+            selectedIndex: -1,
         }
     },
     mounted() {
@@ -42,43 +42,65 @@ export default {
 
             console.log(e);
 
+            let elemsDisplayed = document.getElementById(this.listID).getElementsByTagName('li');
+
+            // if the key pressed is 'Enter', send the input's value to parent.  Also if an item is
+            // selected in the dropdown, make that the input's value and clear the dropdown
             if (e.key == 'Enter') {
+
+                if (this.selectedIndex > -1) {
+
+                    elemsDisplayed[this.selectedIndex].style.background = 'rgb(71 85 105 / var(--tw-bg-opacity))';
+                    document.getElementById(this.inputID).value = elemsDisplayed[this.selectedIndex].innerHTML
+                    this.selectedIndex = -1;
+                    this.closeDD();
+                }
+
                 this.$emit('textSent', document.getElementById(this.inputID).value);
                 return;
             }
-            else if (e.key == 'Escape') {
+            
+            if (e.key == 'Escape') {
+
                 this.closeDD();
                 return;
             }
 
-            // let elementsDisplayed = document.getElementById(this.listID).getElementsByTagName('li');
-            // if (elementsDisplayed.length > 0) {
-            //     console.log(this.selectedItemIndex);
-            //     elementsDisplayed[this.selectedItemIndex].style.background = 'dimgray';
+            // reset bg color for any previously selected item in the dropdown, then change it for the next
+            // if arrow up or down has been pressed
+            if (elemsDisplayed.length > 0) {
 
-            //     if (e.key == 'ArrowDown' || e.key == 'ArrowUp') {
+                if (this.selectedIndex > -1)
+                    elemsDisplayed[this.selectedIndex].style.background = 'rgb(71 85 105 / var(--tw-bg-opacity))';
 
-            //         let prevIndex = this.selectedItemIndex;
-            //         let indexAdjust = (e.key == 'ArrowDown' ? 1 : -1);
-            //         this.selectedItemIndex = Math.max(Math.min(this.selectedItemIndex + indexAdjust, elementsDisplayed.length - 1), 0)
-            //         console.log(indexAdjust, prevIndex, this.selectedItemIndex );
-            //         elementsDisplayed[this.selectedItemIndex].style.background = 'dimgray';
-            //         elementsDisplayed[prevIndex].style.background = 'black';
-            //         this.clearAndSetDisplayTimer();
+                if (e.key == 'ArrowDown' || e.key == 'ArrowUp') {
 
-            //         return;
-            //     }
-            // }
+                    let dir = e.key == 'ArrowDown' ? 1 : -1;
+                    this.selectedIndex = this.clampIndex(this.selectedIndex + dir, -1, elemsDisplayed.length - 1);
 
-            const expr = new RegExp(document.getElementById(this.inputID).value, 'i');
-            this.displayedItemList = [];
-            for (var i of this.itemList) {
-                if (expr.test(i))
-                    this.displayedItemList.push(i);
+                    if (this.selectedIndex > -1)
+                        elemsDisplayed[this.selectedIndex].style.background = 'dimgray';
+
+                    this.clearAndSetDisplayTimer();
+                    return;
+                }
             }
-            //this.selectedItemIndex = 0;
-            document.getElementById(this.ddID).style.visibility = "visible";
-            this.clearAndSetDisplayTimer();
+
+            this.closeDD();
+
+            // if the input field is not empty, recompute the list and display the dropdown
+            let inputValue = document.getElementById(this.inputID).value;
+            if (inputValue != '') {
+
+                const expr = new RegExp(inputValue, 'i');
+                for (var i of this.itemList) {
+                    if (expr.test(i))
+                        this.displayedItemList.push(i);
+                }
+
+                document.getElementById(this.ddID).style.visibility = "visible";
+                this.clearAndSetDisplayTimer();
+            }
         },
         clearAndSetDisplayTimer() {
 
@@ -97,7 +119,11 @@ export default {
 
             document.getElementById(this.ddID).style.visibility = "hidden";
             this.displayedItemList = [];
-            //this.selectedItemIndex = 0;
+            this.selectedIndex = -1;
+        },
+        clampIndex(nextInd, min, max) {
+
+            return Math.min(Math.max(nextInd, min), max);
         }
     }
 }
