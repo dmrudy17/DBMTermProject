@@ -24,6 +24,10 @@ export default {
             selectedItemIndex: 0,
         }
     },
+    mounted() {
+
+        document.addEventListener("click", this.handleClick);
+    },
     methods: {
 
         // setList() is called from parent
@@ -82,6 +86,12 @@ export default {
             clearTimeout(this.ddDisplayTimer);
             // starts a timer that will close the games drop down
             this.ddDisplayTimer = setTimeout(this.closeDD, 4000);
+        },
+        handleClick(e) {
+            console.log(e.target);
+
+            if (!document.getElementById(this.ddID).contains(e.target))
+                this.closeDD();
         },
         closeDD() {
 
