@@ -3,8 +3,8 @@
         flex flex-col justify-between">
     <img class="h-48 w-96 rounded-md" :src="image">
     <div class="h-16 overflow-hidden">
-      <h2 v-if="title.length < 50" class="text-2xl font-bold">{{ title }} </h2>
-      <h2 v-if="title.length >= 50" class="text-lg font-bold">{{ title }} </h2>
+      <h2 v-if="title.length < 40" class="text-2xl font-bold">{{ title }} </h2>
+      <h2 v-if="title.length >= 40" class="text-lg font-bold">{{ title }} </h2>
     </div>
     <ul class="inline-grid grid-cols-4 gap-10 w-full">
       <ChevronDoubleUpIcon class="stroke-lime-400 h-8 w-8"></ChevronDoubleUpIcon>
