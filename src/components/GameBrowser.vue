@@ -58,7 +58,6 @@ export default {
                                                         this.currentPage);
                                                         
             store.methods.addCarouselCards(carouselCards);
-            this.$refs.carousel.updateCards();
         },
         async initialize(g, p) {
 

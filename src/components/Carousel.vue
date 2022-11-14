@@ -9,7 +9,7 @@
     </div>
     <div id="sliderContainer" class="w-full h-full overflow-hidden">
 
-      <ul id="slider" class="grid grid-rows-1 grid-flow-col" :style="'width:' + sliderWidth + 'px;'">
+      <ul id="slider" class="grid grid-rows-1 grid-flow-col">
         <li v-for="card in carouselCards" :key="card" class="p-5 text-white" :style="'width:' + cardWidth + 'px;'">
           <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" />
         </li>
@@ -38,9 +38,8 @@ export default {
     return {
       index: 0,
       wheelTimer: null, // allows us to adjust scroll speed
-      cardWidth: null,
+      cardWidth: null, // determined by .clientWidth of sliderContainer
       cardsOnScreen: 4,
-      sliderWidth: null,
     }
   },
   setup() {
@@ -57,24 +56,17 @@ export default {
   mounted() {
     
     // mounted() is always called on hot-reload, updated() is not
-    // when the program is initially run, carouselCards will not be populated in this function
+    // when the program is initially run or page is refreshed, carouselCards will not be populated in this function
 
     let slider = document.getElementById('slider');
     slider.addEventListener("wheel", this.wheelHandler);
 
     let sliderContainer = document.getElementById('sliderContainer');
     this.cardWidth = sliderContainer.clientWidth / this.cardsOnScreen;
-    this.sliderWidth = this.carouselCards.length * this.cardWidth;
   },
-  updated() {//
+  updated() {
     
-    // console.log("updated", this.cardWidth, this.sliderWidth);
-    // let sliderContainer = document.getElementById('sliderContainer');
-    // this.cardWidth = sliderContainer.clientWidth / this.cardsOnScreen;
-
     let slider = document.getElementById('slider');
-    // this.sliderWidth = this.carouselCards.length * this.cardWidth;
-    
     slider.style.transition = 'margin';
     slider.style.transitionDuration = '1s';
   },
@@ -90,8 +82,7 @@ export default {
 
         if (this.index == this.carouselCards.length - this.cardsOnScreen - 2) {
 
-          // this will tell the parent to fetch more cards.  the parent will then trigger updateCards
-          // adding more cards will squish the cards though, not sure how to fix this.
+          // this will tell the parent to fetch more cards.
           this.$emit('endOfCarousel');
         }
       }
@@ -101,7 +92,6 @@ export default {
     },
     showPrevious() {
 
-    
       if (this.index != 0) {
 
         this.index--;
@@ -113,20 +103,13 @@ export default {
       console.log(this.index);
       console.log(this.carouselCards.length);
     },
-    updateCards() {
-
-      // called from GameBrowser.vue after appending more cards to the list in store
-
-      //this.carouselCards = computed(() => store.state.carouselCards);
-    },
     reset() {
 
       // called from GameBrowser.vue after applying a new filter
+
       this.index = 0;
       let slider = document.getElementById('slider');
       slider.style.marginLeft = 0;
-      console.log(this.index);
-      console.log(this.carouselCards.length);
     },
     wheelHandler(e) {
 
@@ -143,6 +126,7 @@ export default {
       }
     },
     clearWheelTimer() {
+
       clearTimeout(this.wheelTimer);
       this.wheelTimer = null;
     }
