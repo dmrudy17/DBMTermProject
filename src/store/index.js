@@ -46,6 +46,11 @@ const methods = {
             state.carouselCards = payload;
         }
     },
+    addCarouselCards(payload) {
+        if (payload) {
+            state.carouselCards = state.carouselCards.concat(payload);
+        }
+    },
 };
 
 export default {

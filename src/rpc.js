@@ -41,16 +41,31 @@ export async function updateRating_rpc(
     }
 }
 
-export async function getCarousel_rpc(genreIdArg, platformIdArg, pageNumber) {
+export async function getCarousel_rpc( genreIdArg, platformIdArg, titleKWArg, pageArg ) {
+
     try {
         const { data, error } = await supabase.rpc("get_carousel", {
             genre_id_arg: genreIdArg,
             platform_id_arg: platformIdArg,
-            page: pageNumber,
+            title_kw_arg: titleKWArg,
+            page: pageArg,
         });
 
         if (error) throw error;
         return data;
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+export async function getCurrentTags() {
+
+    try {
+        const { data, error } = await supabase.rpc("get_current_tags");
+
+        if (error) throw error;
+        return data;
+
     } catch (err) {
         handleError(err);
     }

@@ -1,8 +1,11 @@
 <template>
-  <div
-    class="container min-h-full min-w-full h-full w-full border rounded-lg p-4 bg-black flex flex-col justify-between">
+  <div class="container h-full border rounded-lg hover:border-lime-400 p-4 bg-black hover:bg-slate-900
+        flex flex-col justify-between">
     <img class="h-48 w-96 rounded-md" :src="image">
-    <h2 class="mt-2 text-2xl font-bold">{{ title }} </h2>
+    <div class="h-16 overflow-hidden">
+      <h2 v-if="title.length < 40" class="text-2xl font-bold">{{ title }} </h2>
+      <h2 v-if="title.length >= 40" class="text-lg font-bold">{{ title }} </h2>
+    </div>
     <ul class="inline-grid grid-cols-4 gap-10 w-full">
       <ChevronDoubleUpIcon class="stroke-lime-400 h-8 w-8"></ChevronDoubleUpIcon>
       <div v-for="(upTag, index) in topTags" :key="index">
