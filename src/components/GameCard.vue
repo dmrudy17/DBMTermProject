@@ -1,14 +1,14 @@
 <template>
-  <div class="absolute min-w-11/12 w-11/12 min-h-3/5 h-3/5 m-auto top-0 bottom-0 left-0 right-0">
+  <div v-if="gameImage" class="absolute min-w-full w-full min-h-4/5 h-4/5 m-auto top-0 bottom-0 left-0 right-0">
     <div class="h-full w-full flex-1 flex flex-col shadow-lg">
       <div class="flex flex-row min-w-full min-h-full overflow-auto">
         <div class="w-1/2" :style="{ background: 'url(' + gameImage + ')', 'background-size': 'cover'}">
-          <span class="text-white text-3xl p-1 bg-black w-auto">{{ gameTitle }}</span>
+          <span class="text-white text-3xl p-1 bg-black w-auto text-left">{{ gameTitle }}</span>
         </div>
         <div class="w-1/2 bg-black scrollbar scrollbar-thumb-indigo-300">
           <table class="table-auto text-white w-full">
             <thead class="sticky top-0 z-2 bg-black">
-              <tr>
+              <tr class="text-center">
                 <th>Tag</th>
                 <th>Average User Score</th>
                 <th v-if="user">Your Score</th>
@@ -49,7 +49,7 @@
 <script>
 import store from '../store/index';
 import { computed, ref } from 'vue';
-import { updateRating_rpc } from '../rpc'
+import { updateRating_rpc } from '../rpc';
 
 export default {
   data() {
