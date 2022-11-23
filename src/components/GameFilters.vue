@@ -1,7 +1,7 @@
 <template>
     <div>
-        <InputDD inputID="titleKW" ddID="titleDDDiv" listID="titleList" ref="titleDD" @textSent="passTitleKWToBrowser"></InputDD>
         <div class="flex flex-row space-x-1 p-1">
+            <InputDD inputID="titleKW" ddID="titleDDDiv" listID="titleList" ref="titleDD" @textSent="passTitleKWToBrowser"></InputDD>
             <p class="bg-white rounded-l-lg px-1">Genre:</p>
             <Dropdown ddID="dd1" ref="genreDD" @itemSelected="passGenreToBrowser"></Dropdown>
             <p class="bg-white rounded-l-lg px-1">Platform: </p>
