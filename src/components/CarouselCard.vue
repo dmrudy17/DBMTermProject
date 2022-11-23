@@ -93,7 +93,7 @@ export default {
       var response = await fetchGameInfo_rpc(this.title);
       var gameInfo = {};
       gameInfo.image = response.game_image;
-      gameInfo.title = this.gameName;
+      gameInfo.title = this.title;
       gameInfo.tagData = response.tags;
       console.log(gameInfo);
       store.methods.setGameInfo(gameInfo);
