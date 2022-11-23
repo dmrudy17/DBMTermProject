@@ -1,7 +1,7 @@
 <template>
 
     <!-- the div the background  -->
-    <div class="fixed  inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="fixed  inset-0 bg-gray-900 bg-opacity-50 overflow-y-auto h-full w-full z-50">
         <!-- <div> -->
 
         <div class="items-center">

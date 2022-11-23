@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="flex flex-row w-full justify-between items-end">
-      <button @click="() => TogglePopup('buttonTrigger')" class="mt-4 px-4 py-2 rounded-md bg-indigo-500">View</button>
+      <button @click="openGameModule('buttonTrigger')" class="mt-4 px-4 py-2 rounded-md bg-indigo-500">View</button>
       <div v-if="user">
         <StarIcon v-if="!isLiked" class="stroke-white h-8 w-8 cursor-pointer" @click="handleAddLike()" />
         <StarIcon v-else class="stroke-white fill-yellow-400 h-8 w-8 cursor-pointer" @click="handleAddLike()" />
@@ -52,6 +52,7 @@ import { ref } from 'vue';
 import Modal from '../views/Modal.vue';
 import store from '../store/index';
 import { computed } from 'vue';
+import { fetchGameInfo_rpc } from '../rpc';
 export default {
   props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons'],
   data() {
@@ -83,6 +84,20 @@ export default {
   methods: {
     handleAddLike() {
       this.isLiked = !this.isLiked;
+    },
+    method1(buttonTrigger) {
+      this.TogglePopup(buttonTrigger);
+      console.log(this.title)
+    },
+    async openGameModule(buttonTrigger) {
+      this.TogglePopup(buttonTrigger);
+      var response = await fetchGameInfo_rpc(this.title);
+      var gameInfo = {};
+      gameInfo.image = response.game_image;
+      gameInfo.title = this.title;
+      gameInfo.tagData = response.tags;
+      console.log(gameInfo);
+      store.methods.setGameInfo(gameInfo);
     }
   }
 }
