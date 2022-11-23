@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <input :id="inputID" class="mx-1 px-2 rounded-lg w-48" type="text" placeholder="Enter game title" 
+        <input :id="inputID" class="mx-1 px-1 rounded-lg w-48" type="text" placeholder="Enter game title" 
             @keyup="handleKeypress">
         <div :id="ddID" class="absolute bg-slate-600 w-50 left-2 top-7 h-fit z-50 px-2" style="visibility:hidden;">
             <ul :id="listID">
