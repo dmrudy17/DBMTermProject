@@ -9,8 +9,8 @@
     </div>
     <div id="sliderContainer" class="w-full h-full overflow-hidden">
 
-      <ul id="slider" class="flex w-full">
-        <li v-for="card in carouselCards" :key="card" class="p-5 text-white w-96">
+      <ul id="slider" class="grid grid-rows-1 grid-flow-col">
+        <li v-for="card in carouselCards" :key="card" class="p-5 text-white" :style="'width:' + cardWidth + 'px;'">
           <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" />
         </li>
 
@@ -36,12 +36,16 @@ import { computed } from 'vue';
 export default {
   data() {
     return {
-      index: 0
+      index: 0,
+      wheelTimer: null, // allows us to adjust scroll speed
+      cardWidth: null, // determined by .clientWidth of sliderContainer
+      cardsOnScreen: 4,
     }
   },
   setup() {
+    
     var carouselCards = computed(() => store.state.carouselCards);
-
+    
     return { carouselCards };
   },
   components: {
@@ -50,52 +54,81 @@ export default {
     ChevronRightIcon
   },
   mounted() {
-    let sliderContainer = document.getElementById('sliderContainer');
+    
+    // mounted() is always called on hot-reload, updated() is not
+    // when the program is initially run or page is refreshed, carouselCards will not be populated in this function
+
     let slider = document.getElementById('slider');
-    let cards = document.getElementsByTagName('li');
+    slider.addEventListener("wheel", this.wheelHandler);
 
-    let sliderContainerWidth = sliderContainer.clientWidth;
-    let elementsToShow = 4;
-
-    let cardWidth = sliderContainerWidth / elementsToShow;
-
-    slider.style.width = 20 * cardWidth + 'px';
+    let sliderContainer = document.getElementById('sliderContainer');
+    this.cardWidth = sliderContainer.clientWidth / this.cardsOnScreen;
+  },
+  updated() {
+    
+    let slider = document.getElementById('slider');
     slider.style.transition = 'margin';
     slider.style.transitionDuration = '1s';
-
-    console.log(this.carouselCards.length);
-    for (let index = 0; index < cards.length; index++) {
-      const element = cards[index];
-      element.style.width = cardWidth + 'px';
-    }
   },
   methods: {
     showNext() {
-      let sliderContainer = document.getElementById('sliderContainer');
-      let slider = document.getElementById('slider');
+      
+      if (this.index < this.carouselCards.length - this.cardsOnScreen) {
 
-      let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 4;
-
-      let cardWidth = sliderContainerWidth / elementsToShow;
-      if (this.index != this.carouselCards.length - elementsToShow) {
         this.index++;
-        slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - cardWidth) + 'px';
+
+        let slider = document.getElementById('slider');
+        slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) - this.cardWidth) + 'px';
+
+        if (this.index == this.carouselCards.length - this.cardsOnScreen - 2) {
+
+          // this will tell the parent to fetch more cards.
+          this.$emit('endOfCarousel');
+        }
       }
+
+      console.log(this.index);
+      console.log(this.carouselCards.length, this.carouselCards); 
     },
     showPrevious() {
-      let sliderContainer = document.getElementById('sliderContainer');
-      let slider = document.getElementById('slider');
-
-      let sliderContainerWidth = sliderContainer.clientWidth;
-      let elementsToShow = 4;
-
-      let cardWidth = sliderContainerWidth / elementsToShow;
 
       if (this.index != 0) {
+
         this.index--;
-        slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + cardWidth) + 'px';
+
+        let slider = document.getElementById('slider');
+        slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + this.cardWidth) + 'px';
       }
+
+      console.log(this.index);
+      console.log(this.carouselCards.length);
+    },
+    reset() {
+
+      // called from GameBrowser.vue after applying a new filter
+
+      this.index = 0;
+      let slider = document.getElementById('slider');
+      slider.style.marginLeft = 0;
+    },
+    wheelHandler(e) {
+
+      if (this.wheelTimer === null) {
+
+          if (e.deltaY < 0)
+            this.showPrevious();
+          else if (e.deltaY > 0)
+            this.showNext();
+
+          // the number entered here determines scroll speed, with smaller numbers meaning faster speed
+          // i.e. 100 will allow for 1 showNext/showPrev every .1 secs, 500 allows for 1 every .5 secs, etc
+          this.wheelTimer = setTimeout(this.clearWheelTimer, 500);
+      }
+    },
+    clearWheelTimer() {
+
+      clearTimeout(this.wheelTimer);
+      this.wheelTimer = null;
     }
   }
 }

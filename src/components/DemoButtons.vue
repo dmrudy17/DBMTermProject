@@ -22,9 +22,9 @@ export default {
     methods: {
         async upsertAll() {
 
-            await upsertFromGames();
-            await upsertGenres();
-            await upsertPlatforms();
+            // await upsertFromGames();
+            // await upsertGenres();
+            // await upsertPlatforms();
         },
         async callFetchGameInfo() {
             

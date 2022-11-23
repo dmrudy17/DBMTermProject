@@ -31,6 +31,24 @@ export async function fetchPlatforms() {
     }
 }
 
+export async function fetchGameTitles() {
+
+  try {
+    const { data, error } = await supabase.from('Games').select('title')
+
+    if (error) throw error
+    
+    let titles = [];
+    for (var t of data)
+      titles.push(t.title)
+
+    return titles;  
+
+  } catch (e) {
+      handleError(e);
+  }
+}
+
 export async function fetchGameDetails(gameID) {
 
   try {

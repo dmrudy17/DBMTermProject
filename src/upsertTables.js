@@ -15,12 +15,12 @@ const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 // fetches pages from the games endpoint and uses the games' attributes to build our tables including: Games
 // Tags, Game To Tag, Game To Genre, and Game To Platform
 export async function upsertFromGames() {
-
-    const totalPagesWeWant = 1;
+    
+    const totalPagesWeWant = 10;
     const pageSize = 40;
     const baseURL = "https://api.rawg.io/api/games";
 
-    // all rows fetched for the games table
+    // all rows fetched for the Games table
     var allGames = [];
 
     // all rows fetched for the game<->genre table
@@ -32,10 +32,8 @@ export async function upsertFromGames() {
     // all rows fetched for the game<->tag table
     var allGameTagLinks = []
 
-    // all rows fetched for the tags table.  Use Set() because we will surely encounter duplicates when fetching. This may
-    // not be necessary since we have ignore duplicates on upsert, but it will keep the list of rows sent much smaller
-    const allTags = new Set();
-
+    // all rows fetched for Tags table
+    var allTags = [];
     
     for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
 
@@ -55,8 +53,8 @@ export async function upsertFromGames() {
             }
 
             for (var tag of game.tags) {
-                allTags.add({ tag_id: tag.id, tag_name: tag.name, is_rateable: true, description: ""})
-                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, avg_score: null, times_rated: null });
+                allTags.push({ tag_id: tag.id, tag_name: tag.name, is_rateable: true, description: ""});
+                allGameTagLinks.push({ game_id: game.id, tag_id: tag.id, avg_score: null, times_rated: 0 });
             }
 
             allGames.push({
@@ -76,7 +74,7 @@ export async function upsertFromGames() {
     await insertNonDuplicates(allGameGenreLinks, "Game To Genre");
     await insertNonDuplicates(allGamePlatformLinks, "Game To Platform");
     await insertNonDuplicates(allGameTagLinks, "Game To Tag");
-    await insertNonDuplicates(Array.from(allTags), "Tags"); // doesn't like taking Set() as argument
+    await insertNonDuplicates(allTags, "Tags"); // doesn't like taking Set() as argument
     
     console.log("done upserting from games");
   }
@@ -165,7 +163,7 @@ async function sendToDatabase(allFetched, tableName) {
 // - IMPORTANT NOTE - if ignoreDuplicates is not set, this will instead update duplicate rows, which may wipe data
 //   that is unique to our db.  For example, updating a row in Games would set the confidence column
 async function insertNonDuplicates(rows, tableName) {
-
+    console.log("inserting to", tableName);
     try {
         
         const { data, error } = await supabase
