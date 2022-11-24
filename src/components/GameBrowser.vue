@@ -37,6 +37,7 @@ export default {
             genreSelected: null,
             platformSelected: null,
             titleKeyWord: '',
+            viewingUserGames: false,
         }
     },
     methods: {
@@ -57,10 +58,22 @@ export default {
         async fetchNextPage() {
 
             this.currentPage++;
-            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
-                                                        this.platformSelected.platform_id,
-                                                        this.titleKeyWord,
-                                                        this.currentPage);
+            var carouselCards;
+
+            if (this.viewingUserGames) {
+
+                carouselCards = await getUserCarousel_rpc(store.state.user.id, this.currentPage);
+            }
+            else {
+                
+                const userID = store.state.user == null ? null : store.state.user.id;
+
+                carouselCards = await getCarousel_rpc(userID,
+                                                            this.genreSelected.genre_id,
+                                                            this.platformSelected.platform_id,
+                                                            this.titleKeyWord,
+                                                            this.currentPage);
+            }
                                                         
             store.methods.addCarouselCards(carouselCards);
         },
@@ -96,9 +109,19 @@ export default {
         },
         async showUserCarousel() {
             
+            this.viewingUserGames = true;
+            this.currentPage = 1;
             const carouselCards = await getUserCarousel_rpc(store.state.user.id, this.currentPage);
             store.methods.setCarouselCards(carouselCards);
-        }
+            this.$refs.carousel.reset();
+        },
+        async fetchNextUserPage() {
+
+            this.currentPage++;
+            const carouselCards = await getUserCarousel_rpc(store.state.user.id, this.currentPage);
+                                                        
+            store.methods.addCarouselCards(carouselCards);
+        },
     }
 }
 </script>
