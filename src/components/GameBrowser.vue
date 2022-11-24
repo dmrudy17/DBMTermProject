@@ -11,7 +11,8 @@
         <div class="ml-32">
             <h1 class="text-3xl text-white">Browse Hit Titles</h1>
             <GameFilters    @init="initialize" @titleKWSet="applyKeyWordFilter"
-                            @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" @displayUserGamesSelected="showUserCarousel" />
+                            @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter"
+                            @displayUserGamesSelected="showUserCarousel" />
         </div>
         <Carousel ref="carousel" @endOfCarousel="fetchNextPage" />
     </div>
@@ -41,8 +42,12 @@ export default {
     methods: {
 
         async fetchAndSetCarousel() {
-            
-            const carouselCards = await getCarousel_rpc(this.genreSelected.genre_id,
+
+            // attempting to read .id will error if no user is logged in, so check if a user is logged in 
+            const userID = store.state.user == null ? null : store.state.user.id;
+    
+            const carouselCards = await getCarousel_rpc(userID,
+                                                        this.genreSelected.genre_id,
                                                         this.platformSelected.platform_id,
                                                         this.titleKeyWord,
                                                         this.currentPage);

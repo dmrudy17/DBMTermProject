@@ -56,10 +56,12 @@ import { fetchGameInfo_rpc } from '../rpc';
 import { supabase } from '../supabase';
 
 export default {
-  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons', 'gameId'],
+  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons', 'gameId', 'isLiked_prop'],
   data() {
     return {
-      isLiked: false
+
+      // have to move the prop value to a data variable because props are read-only
+      isLiked: this.isLiked_prop
     }
   },
   components: { 
@@ -89,11 +91,20 @@ export default {
   },
   methods: {
     async handleAddLike() {
+      
       this.isLiked = !this.isLiked;
       
-      const { data, error } = await supabase.from('Likes').insert([
-          { user_id: store.state.user.id, game_id: this.gameId },
-        ])
+      if (this.isLiked) {
+        
+        const { data, error } = await supabase.from('Likes').insert([
+            { user_id: store.state.user.id, game_id: this.gameId },
+          ])
+      }
+      else {
+
+        const { data, error } = await supabase.from('Likes').delete()
+            .eq('user_id', store.state.user.id).eq('game_id', this.gameId)
+      }
     },
     method1(buttonTrigger) {
       this.TogglePopup(buttonTrigger);

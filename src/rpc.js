@@ -42,6 +42,7 @@ export async function updateRating_rpc(
 }
 
 export async function getCarousel_rpc(
+    userIDArg,
     genreIdArg,
     platformIdArg,
     titleKWArg,
@@ -49,9 +50,24 @@ export async function getCarousel_rpc(
 ) {
     try {
         const { data, error } = await supabase.rpc("get_carousel", {
+            user_id_arg: userIDArg,
             genre_id_arg: genreIdArg,
             platform_id_arg: platformIdArg,
             title_kw_arg: titleKWArg,
+            page: pageArg,
+        });
+
+        if (error) throw error;
+        return data;
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+export async function getUserCarousel_rpc(userIdArg, pageArg) {
+    try {
+        const { data, error } = await supabase.rpc("get_user_carousel", {
+            user_id_arg: userIdArg,
             page: pageArg,
         });
 
@@ -80,20 +96,6 @@ export async function clearTable(db_function) {
         const { error } = await supabase.rpc(db_function);
 
         if (error) throw error;
-    } catch (err) {
-        handleError(err);
-    }
-}
-
-export async function getUserCarousel_rpc(userIdArg, pageArg) {
-    try {
-        const { data, error } = await supabase.rpc("get_user_carousel", {
-            user_id_arg: userIdArg,
-            page: pageArg,
-        });
-
-        if (error) throw error;
-        return data;
     } catch (err) {
         handleError(err);
     }
