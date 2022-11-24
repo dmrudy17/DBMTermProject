@@ -8,6 +8,7 @@ const state = reactive({
         tagData: [], // array of objects { tagName: '', score: '' }
     },
     carouselCards: [],
+    userInspectingGame: false,
 });
 
 const methods = {
@@ -54,6 +55,10 @@ const methods = {
             state.carouselCards = state.carouselCards.concat(payload);
         }
     },
+    toggleInspecting() {
+        state.userInspectingGame = !state.userInspectingGame;
+        console.log("toggled", state.userInspectingGame);
+    }
 };
 
 export default {

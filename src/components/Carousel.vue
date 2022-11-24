@@ -114,6 +114,9 @@ export default {
     },
     wheelHandler(e) {
 
+      if (store.state.userInspectingGame)
+        return;
+        
       if (this.wheelTimer === null) {
 
           if (e.deltaY < 0)

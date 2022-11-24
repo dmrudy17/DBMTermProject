@@ -76,6 +76,8 @@ export default {
       buttonTrigger: false,
     });
     const TogglePopup = (trigger) => {
+
+      store.methods.toggleInspecting();
       // Reset gameInfo when modal is closed
       if (popupTriggers.value[trigger] === true) {
         store.methods.handleCloseModal();
