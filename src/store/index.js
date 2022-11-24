@@ -25,6 +25,9 @@ const methods = {
             return a < b ? 1 : -1;
         };
     },
+    handleCloseModal() {
+        state.gameInfo = {};
+    },
     setUser(payload) {
         state.user = payload ? payload.user : null;
     },
