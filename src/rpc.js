@@ -41,8 +41,12 @@ export async function updateRating_rpc(
     }
 }
 
-export async function getCarousel_rpc( genreIdArg, platformIdArg, titleKWArg, pageArg ) {
-
+export async function getCarousel_rpc(
+    genreIdArg,
+    platformIdArg,
+    titleKWArg,
+    pageArg
+) {
     try {
         const { data, error } = await supabase.rpc("get_carousel", {
             genre_id_arg: genreIdArg,
@@ -59,13 +63,11 @@ export async function getCarousel_rpc( genreIdArg, platformIdArg, titleKWArg, pa
 }
 
 export async function getCurrentTags() {
-
     try {
         const { data, error } = await supabase.rpc("get_current_tags");
 
         if (error) throw error;
         return data;
-
     } catch (err) {
         handleError(err);
     }
@@ -78,6 +80,20 @@ export async function clearTable(db_function) {
         const { error } = await supabase.rpc(db_function);
 
         if (error) throw error;
+    } catch (err) {
+        handleError(err);
+    }
+}
+
+export async function getUserCarousel_rpc(userIdArg, pageArg) {
+    try {
+        const { data, error } = await supabase.rpc("get_user_carousel", {
+            user_id_arg: userIdArg,
+            page: pageArg,
+        });
+
+        if (error) throw error;
+        return data;
     } catch (err) {
         handleError(err);
     }

@@ -6,6 +6,7 @@
             <Dropdown ddID="dd1" ref="genreDD" @itemSelected="passGenreToBrowser"></Dropdown>
             <p class="bg-white rounded-l-lg px-1">Platform: </p>
             <Dropdown ddID="dd2" ref="platformDD" @itemSelected="passPlatformToBrowser"></Dropdown>
+            <button @click="displayUserGames" class="text-white">For You</button>
         </div>
     </div>
 </template>
@@ -54,6 +55,10 @@ export default {
 
             this.$emit('titleKWSet', kw);
         },
+        displayUserGames() {
+
+            this.$emit('displayUserGamesSelected');
+        }
     },
 }
 </script>

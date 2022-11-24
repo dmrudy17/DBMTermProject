@@ -11,7 +11,7 @@
 
       <ul id="slider" class="grid grid-rows-1 grid-flow-col">
         <li v-for="card in carouselCards" :key="card" class="p-5 text-white" :style="'width:' + cardWidth + 'px;'">
-          <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" />
+          <CarouselCard :image="card.image" :title="card.game_title" :topTags="card.top_tags" :bottomTags="card.bottom_tags" :platformIcons="card.platform_icons" :gameId="card.game_id" />
         </li>
 
       </ul>

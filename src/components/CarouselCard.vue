@@ -53,8 +53,10 @@ import Modal from '../views/Modal.vue';
 import store from '../store/index';
 import { computed } from 'vue';
 import { fetchGameInfo_rpc } from '../rpc';
+import { supabase } from '../supabase';
+
 export default {
-  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons'],
+  props: ['image', 'title', 'topTags', 'bottomTags', 'platformIcons', 'gameId'],
   data() {
     return {
       isLiked: false
@@ -86,8 +88,12 @@ export default {
     }
   },
   methods: {
-    handleAddLike() {
+    async handleAddLike() {
       this.isLiked = !this.isLiked;
+      
+      const { data, error } = await supabase.from('Likes').insert([
+          { user_id: store.state.user.id, game_id: this.gameId },
+        ])
     },
     method1(buttonTrigger) {
       this.TogglePopup(buttonTrigger);

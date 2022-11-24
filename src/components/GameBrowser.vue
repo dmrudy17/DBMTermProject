@@ -11,7 +11,7 @@
         <div class="ml-32">
             <h1 class="text-3xl text-white">Browse Hit Titles</h1>
             <GameFilters    @init="initialize" @titleKWSet="applyKeyWordFilter"
-                            @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" />
+                            @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter" @displayUserGamesSelected="showUserCarousel" />
         </div>
         <Carousel ref="carousel" @endOfCarousel="fetchNextPage" />
     </div>
@@ -20,7 +20,7 @@
 <script>
 import GameFilters from '../components/GameFilters.vue'
 import Carousel from '../components/Carousel.vue'
-import { getCarousel_rpc } from '../rpc';
+import { getCarousel_rpc, getUserCarousel_rpc } from '../rpc';
 import store from '../store/index';
 
 export default {
@@ -88,6 +88,11 @@ export default {
                 await this.fetchAndSetCarousel()
                 this.$refs.carousel.reset();
             }
+        },
+        async showUserCarousel() {
+            
+            const carouselCards = await getUserCarousel_rpc(store.state.user.id, this.currentPage);
+            store.methods.setCarouselCards(carouselCards);
         }
     }
 }
