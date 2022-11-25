@@ -85,6 +85,7 @@ export default {
         },
         async applyGenreFilter(g) {
             
+            this.viewingUserGames = false;
             this.genreSelected = g;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
@@ -92,6 +93,7 @@ export default {
         },
         async applyPlatformFilter(p) {
 
+            this.viewingUserGames = false;
             this.platformSelected = p;
             this.currentPage = 1;
             await this.fetchAndSetCarousel();
@@ -101,6 +103,7 @@ export default {
             
             if (kw != this.titleKeyWord) {
 
+                this.viewingUserGames = false;
                 this.titleKeyWord = kw;
                 this.currentPage = 1;
                 await this.fetchAndSetCarousel()
