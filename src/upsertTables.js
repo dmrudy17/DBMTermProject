@@ -74,7 +74,7 @@ export async function upsertFromGames() {
     await insertNonDuplicates(allGameGenreLinks, "Game To Genre");
     await insertNonDuplicates(allGamePlatformLinks, "Game To Platform");
     await insertNonDuplicates(allGameTagLinks, "Game To Tag");
-    await insertNonDuplicates(allTags, "Tags"); // doesn't like taking Set() as argument
+    await insertNonDuplicates(allTags, "Tags");
     
     console.log("done upserting from games");
   }
