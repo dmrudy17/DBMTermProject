@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="-ml-4">
         <div class="flex flex-row space-x-1 p-1">
             <InputDD inputID="titleKW" ddID="titleDDDiv" listID="titleList" ref="titleDD" @textSent="passTitleKWToBrowser"></InputDD>
             <p class="bg-white rounded-l-lg px-1">Genre:</p>

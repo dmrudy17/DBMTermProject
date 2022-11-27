@@ -9,7 +9,7 @@
 <template>
     <div class="absolute m-auto top-16 left-0 right-0 overflow-hidden">
         <div class="ml-32">
-            <h1 class="text-3xl text-white">Browse Hit Titles</h1>
+            <h1 class="text-3xl text-white -ml-2">Browse Hit Titles</h1>
             <GameFilters    @init="initialize" @titleKWSet="applyKeyWordFilter"
                             @genreSelected="applyGenreFilter" @platformSelected="applyPlatformFilter"
                             @displayUserGamesSelected="showUserCarousel" />

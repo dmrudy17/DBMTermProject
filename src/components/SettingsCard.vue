@@ -6,11 +6,11 @@
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
           <h1 class="text-white text-center text-xl">Settings</h1>
           <div class="flex flex-col">
-            <div class="flex flex-col">
-              <h1 class="text-white">Username: {{ userName }}</h1>
-              <h1 class="text-white">Email: {{ email }}</h1>
+            <div class="flex flex-col text-center">
+              <h1 class="text-white">{{ userName }}</h1>
+              <h1 class="text-white">{{ email }}</h1>
             </div>
-            <button @click="toggleDelete = !toggleDelete" class="py-3 px-1 w-1/2 m-auto rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Delete Account</button>
+            <button @click="toggleDelete = !toggleDelete" class="py-1 px-1 w-1/2 m-auto rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Delete Account</button>
           </div>
         </div>
       </div>
@@ -24,8 +24,8 @@
             <img class="rounded-lg w-96" src="../assets/pikachusad.jpg">
             <span class="text-white mt-2 text-lg text-center">Are you sure you would like to delete your account?</span>
             <div class="w-1/2 flex flex-row space-x-2 justify-between">
-              <button @click="toggleDelete = !toggleDelete" class="w-1/2 text-center py-3 px-2 rounded bg-pink-500 text-white hover:bg-pink-400 focus:outline-none my-1">Cancel</button>
-              <button @click="handleDeleteUser" class="w-1/2 text-center py-3 px-2 rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Continue</button>
+              <button @click="toggleDelete = !toggleDelete" class="w-1/2 text-center py-1 px-2 rounded bg-pink-500 text-white hover:bg-pink-400 focus:outline-none my-1">Cancel</button>
+              <button @click="handleDeleteUser" class="w-1/2 text-center py-1 px-2 rounded bg-indigo-500 text-white hover:bg-indigo-400 focus:outline-none my-1">Continue</button>
             </div>
           </div>
         </div>
