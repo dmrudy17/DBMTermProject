@@ -12,6 +12,12 @@ import { supabase } from './supabase'
 import { handleError } from './error'
 const apiKey = import.meta.env.VITE_RAWG_API_KEY;
 
+export async function upsertAll() {
+    await upsertFromGames();
+    await upsertGenres();
+    await upsertPlatforms();
+}
+
 // fetches pages from the games endpoint and uses the games' attributes to build our tables including: Games
 // Tags, Game To Tag, Game To Genre, and Game To Platform
 export async function upsertFromGames() {
@@ -36,6 +42,8 @@ export async function upsertFromGames() {
     var allTags = [];
     
     for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
+
+        console.log("Getting /games page ", pageNum);
 
         var response = await fetchPage(baseURL, pageSize, pageNum);
     
@@ -90,6 +98,8 @@ export async function upsertGenres() {
 
     for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
 
+        console.log("Getting /genres page ", pageNum);
+
         var response = await fetchPage(baseURL, pageSize, pageNum);
 
         const fetched = response.data.results;
@@ -113,6 +123,8 @@ export async function upsertPlatforms() {
     var allFetched = [];
 
     for (var pageNum = 1; pageNum <= totalPagesWeWant; pageNum++) {
+
+        console.log("Getting /platforms page ", pageNum);
 
         var response = await fetchPage(baseURL, pageSize, pageNum);
         

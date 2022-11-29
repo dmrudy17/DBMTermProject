@@ -59,3 +59,14 @@ export async function fetchGameDetails(gameID) {
       handleError(err);
   }
 }
+
+export async function fetchGameTrailer(gameID) {
+
+  try {
+    const url = `https://api.rawg.io/api/games/${gameID}/movies` + `?key=${apiKey}`;
+    return await axios.get(url);
+    
+  } catch (err) {
+      handleError(err);
+  }
+}
