@@ -7,7 +7,7 @@
             <p class="bg-white rounded-l-lg px-1">Platform: </p>
             <Dropdown ddID="dd2" ref="platformDD" @itemSelected="passPlatformToBrowser"></Dropdown>
             <p></p><p></p><p></p><p></p>
-            <button @click="displayUserGames" class="text-white bg-indigo-500 rounded-lg px-2">Your Games</button>
+            <button v-if="user" @click="displayUserGames" class="text-white bg-indigo-500 rounded-lg px-2">Your Games</button>
         </div>
     </div>
 </template>
@@ -17,6 +17,8 @@
 import InputDD from '../components/InputDD.vue';
 import Dropdown from '../components/Dropdown.vue';
 import { fetchGenres, fetchPlatforms, fetchGameTitles } from '../fetch';
+import store from '../store/index';
+import { computed } from 'vue';
 
 export default {
 
@@ -29,6 +31,11 @@ export default {
             genreList: [ { genre_id: 0, name: 'All' } ],
             platformList: [ { platform_id: 0, name: 'All'} ],
         }
+    },
+    setup() {
+        const user = computed(() => store.state.user);
+        
+        return { user };
     },
     async mounted() {
 
