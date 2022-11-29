@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen min-w-screen flex flex-col">
-    <div v-if="!toggleDelete" class="min-w-1/3 w-1/3 h-1/3 m-auto flex-1 flex flex-col items-center justify-center px-2">
+    <div v-if="!toggleDelete" class="min-w-1/4 w-1/4 h-1/3 m-auto flex-1 flex flex-col items-center justify-center px-2">
       <div class="relative w-full h-full">
         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 blur"></div>
         <div class="relative bg-black px-6 py-8 rounded shadow-md text-black w-full">
