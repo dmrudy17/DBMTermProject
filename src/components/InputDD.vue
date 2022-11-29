@@ -40,8 +40,6 @@ export default {
         },
         handleKeypress(e) {
 
-            console.log(e);
-
             let elemsDisplayed = document.getElementById(this.listID).getElementsByTagName('li');
 
             // if the key pressed is 'Enter', send the input's value to parent.  Also if an item is
@@ -110,8 +108,7 @@ export default {
             this.ddDisplayTimer = setTimeout(this.closeDD, 4000);
         },
         handleClick(e) {
-            console.log(e.target);
-
+            
             if (!document.getElementById(this.ddID).contains(e.target))
                 this.closeDD();
         },

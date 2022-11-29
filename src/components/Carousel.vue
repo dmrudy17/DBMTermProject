@@ -87,9 +87,6 @@ export default {
           this.$emit('endOfCarousel');
         }
       }
-
-      console.log(this.index);
-      console.log(this.carouselCards.length, this.carouselCards); 
     },
     showPrevious() {
 
@@ -100,14 +97,10 @@ export default {
         let slider = document.getElementById('slider');
         slider.style.marginLeft = ((+slider.style.marginLeft.slice(0, -2)) + this.cardWidth) + 'px';
       }
-
-      console.log(this.index);
-      console.log(this.carouselCards.length);
     },
     reset() {
 
       // called from GameBrowser.vue after applying a new filter
-
       this.index = 0;
       let slider = document.getElementById('slider');
       slider.style.marginLeft = 0;

@@ -57,8 +57,7 @@ const methods = {
     },
     toggleInspecting() {
         state.userInspectingGame = !state.userInspectingGame;
-        console.log("toggled", state.userInspectingGame);
-    }
+    },
 };
 
 export default {

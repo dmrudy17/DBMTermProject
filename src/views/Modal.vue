@@ -15,11 +15,10 @@
 </template>
 <script>
 import GameCard from '../components/GameCard.vue';
-import GamePageCard from '../components/StaticGamePageCard.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 export default {
-    components: { GameCard, GamePageCard, XMarkIcon },
+    components: { GameCard, XMarkIcon },
     props: ["TogglePopup"],
     data() {
         return {

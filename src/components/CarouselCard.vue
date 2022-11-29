@@ -110,7 +110,6 @@ export default {
     },
     method1(buttonTrigger) {
       this.TogglePopup(buttonTrigger);
-      console.log(this.title)
     },
     async openGameModule(buttonTrigger) {
       this.TogglePopup(buttonTrigger);
@@ -119,7 +118,6 @@ export default {
       gameInfo.image = response.game_image;
       gameInfo.title = this.title;
       gameInfo.tagData = response.tags;
-      console.log(gameInfo);
       store.methods.setGameInfo(gameInfo);
     }
   }

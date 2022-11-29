@@ -106,9 +106,6 @@ export default {
       var newAvgScore;
       for (var index in this.tagData) {
         if (this.tagRating[index] && this.tagRating[index] !== null) {
-          // console.log(this.tagData[index]);
-          // console.log(this.tagRating[index]);
-          console.log(title);
           newAvgScore = await updateRating_rpc(store.state.user.id, this.tagData[index].name, title, this.tagRating[index]);
           if (newAvgScore !== null) {
             store.state.gameInfo.tagData[index].avg_score = newAvgScore;
