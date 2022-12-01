@@ -35,7 +35,7 @@
           Sign up
         </router-link>
       </div>
-      <h1 class="text-pink-500" v-if="errorMessage">{{ errorMessage }}</h1>
+      <h1 class="text-pink-500 whitespace-nowrap" v-if="errorMessage">{{ errorMessage }}</h1>
     </div>
   </div>
 </template>
