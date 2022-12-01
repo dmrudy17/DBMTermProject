@@ -5,7 +5,6 @@ import Login from "../views/Login.vue";
 
 import UserSettings from "../views/UserSettings.vue";
 import GamePage from "../views/GamePage.vue";
-import TestView from "../views/TestView.vue";
 
 const routes = [
   {
@@ -32,11 +31,6 @@ const routes = [
     path: "/game",
     name: "GamePage",
     component: GamePage,
-  },
-  {
-    path: "/test",
-    name: "TestView",
-    component: TestView,
   },
 ];
 
