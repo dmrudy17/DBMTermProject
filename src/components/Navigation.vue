@@ -23,6 +23,7 @@
 
 <script>
 import { RocketLaunchIcon, ArrowRightOnRectangleIcon, UserIcon } from "@heroicons/vue/24/outline";
+import { upsertAll } from '../upsertTables';
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
 import store from '../store/index';
